@@ -145,38 +145,6 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
             <i class='bx bx-menu' ></i>
             <h3>Pertanyaan Umum</h3>
         </div>
-        <div class="main-content">
-            <table class="content-table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Pertanyaan</th>
-                        <th>Jawaban</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Pertanyaan 1</td>
-                        <td>Jawaban 1</td>
-                        <td>Aksi 1</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Pertanyaan 2</td>
-                        <td>Jawaban 2</td>
-                        <td>Aksi 2</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Pertanyaan 3</td>
-                        <td>Jawaban 3</td>
-                        <td>Aksi 3</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </section>
 
     <script>

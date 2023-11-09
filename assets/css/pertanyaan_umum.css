@@ -367,37 +367,3 @@ body {
     font-size: 25px;
     font-weight: 600;
 }
-
-.home-section .main-content .content-table {
-    border-collapse: collapse;
-    margin: 30px 20px;
-    font-size: 0.9em;
-    width: 96%;
-    border-radius: 5px 5px 0 0;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-.home-section .main-content .content-table thead tr {
-    background-color: #59A773;
-    color: #ffffff;
-    text-align: left;
-    font-weight: bold;
-}
-
-.home-section .main-content .content-table th,
-.home-section .main-content .content-table td {
-    padding: 12px 15px;
-}
-
-.home-section .main-content .content-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-.home-section .main-content .content-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-.home-section .main-content .content-table tbody tr:last-of-type {
-    border-bottom: 2px solid #59A773;
-}

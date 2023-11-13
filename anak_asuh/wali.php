@@ -19,7 +19,10 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wali</title>
-    <link rel="stylesheet" href="../assets/css/wali.css">
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/alert.css">
+    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/table.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -147,23 +150,127 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
             <i class='bx bx-menu' ></i>
             <h3>Wali</h3>
         </div>
+        <div class="home-body">
+            <div class="table">
+                <div class="table-header">
+                    <div class="show">
+                        <p>Show</p>
+                        <select id="itemperpage">
+                            <option value="10" selected>10</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <p>Per Page</p>
+                    </div>
+                    <div>
+                        <input type="text" id="search" placeholder="Cari...">
+                        <button class="add-new"><i class='bx bx-plus'></i> Tambah Data</button>
+                    </div>
+                </div>
+                <div class="table-section">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <button><i class='bx bx-show' ></i></button>
+                                    <button><i class='bx bxs-edit'></i></button>
+                                    <button><i class='bx bxs-trash' ></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <button><i class='bx bx-show' ></i></button>
+                                    <button><i class='bx bxs-edit'></i></button>
+                                    <button><i class='bx bxs-trash' ></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>
+                                    <button><i class='bx bx-show' ></i></button>
+                                    <button><i class='bx bxs-edit'></i></button>
+                                    <button><i class='bx bxs-trash' ></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>
+                                    <button><i class='bx bx-show' ></i></button>
+                                    <button><i class='bx bxs-edit'></i></button>
+                                    <button><i class='bx bxs-trash' ></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>
+                                    <button><i class='bx bx-show' ></i></button>
+                                    <button><i class='bx bxs-edit'></i></button>
+                                    <button><i class='bx bxs-trash' ></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>
+                                    <button><i class='bx bx-show' ></i></button>
+                                    <button><i class='bx bxs-edit'></i></button>
+                                    <button><i class='bx bxs-trash' ></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>
+                                    <button><i class='bx bx-show' ></i></button>
+                                    <button><i class='bx bxs-edit'></i></button>
+                                    <button><i class='bx bxs-trash' ></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>
+                                    <button><i class='bx bx-show' ></i></button>
+                                    <button><i class='bx bxs-edit'></i></button>
+                                    <button><i class='bx bxs-trash' ></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>
+                                    <button><i class='bx bx-show' ></i></button>
+                                    <button><i class='bx bxs-edit'></i></button>
+                                    <button><i class='bx bxs-trash' ></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>
+                                    <button><i class='bx bx-show' ></i></button>
+                                    <button><i class='bx bxs-edit'></i></button>
+                                    <button><i class='bx bxs-trash' ></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bottom-field">
+                <ul class="pagination">
+                  <li class="prev"><a href="#" id="prev">&#139;</a></li>
+                  <li class="next"><a href="#" id="next">&#155;</a></li>
+                </ul>
+            </div>
+            </div>
+        </div>
     </section>
 
-    <script>
-        let arrow = document.querySelectorAll(".arrow");
-        for(var i = 0; i < arrow.length; i++){
-            arrow[i].addEventListener("click", (e)=>{
-                let arrowParent = e.target.parentElement.parentElement;
-                arrowParent.classList.toggle("showMenu");
-            });
-        }
-
-        let sidebar = document.querySelector(".sidebar");
-        let sidebarBtn = document.querySelector(".bx-menu");
-        sidebarBtn.addEventListener("click", ()=>{
-            sidebar.classList.toggle("close");
-        });
-    </script>
+    <script type="text/javascript" src="../assets/js/sidebar.js"></script>
+    <script type="text/javascript" src="../assets/js/table.js"></script>
 
     <?php 
     if($_SESSION['login_success'] == true){

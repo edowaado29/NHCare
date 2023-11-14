@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2023 at 03:05 AM
+-- Generation Time: Nov 14, 2023 at 03:43 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -35,6 +35,14 @@ CREATE TABLE `tb_acara` (
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tb_acara`
+--
+
+INSERT INTO `tb_acara` (`id_acara`, `judul`, `deskripsi`, `tanggal_acara`, `id_user`) VALUES
+(1, 'Acara 1', '', '2023-11-14 02:58:22', 1),
+(2, 'Acara 2', '', '2023-11-14 02:58:22', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -65,6 +73,14 @@ CREATE TABLE `tb_anakasuh` (
   `cabang` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tb_anakasuh`
+--
+
+INSERT INTO `tb_anakasuh` (`id_anakasuh`, `nik`, `nama`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `alamat`, `keterangan`, `asrama`, `no_akta`, `img_akta`, `no_kk`, `img_kk`, `no_skko`, `img_skko`, `status`, `img_anak`, `nama_sekolah`, `tingkat`, `kelas`, `cabang`) VALUES
+(1, '', 'Anak 1', '', '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+(2, '', 'Anak 2', '', '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+
 -- --------------------------------------------------------
 
 --
@@ -74,8 +90,17 @@ CREATE TABLE `tb_anakasuh` (
 CREATE TABLE `tb_donasi` (
   `id_donasi` int(11) NOT NULL,
   `nominal` int(11) NOT NULL,
-  `tgl_donasi` datetime NOT NULL
+  `tgl_donasi` datetime NOT NULL,
+  `id_donatur` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_donasi`
+--
+
+INSERT INTO `tb_donasi` (`id_donasi`, `nominal`, `tgl_donasi`, `id_donatur`) VALUES
+(1, 1000000, '2023-11-14 03:29:29', 1),
+(2, 2000000, '2023-11-14 03:29:29', 2);
 
 -- --------------------------------------------------------
 
@@ -94,6 +119,14 @@ CREATE TABLE `tb_donatur` (
   `img_profil` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tb_donatur`
+--
+
+INSERT INTO `tb_donatur` (`id_donatur`, `nama`, `email`, `password`, `no_hp`, `alamat`, `jenis_kelamin`, `img_profil`) VALUES
+(1, 'Donatur 1', 'd1@gmail.com', '', '', '', '', ''),
+(2, 'Donatur 2', 'd2@gmail.com', '', '', '', '', '');
+
 -- --------------------------------------------------------
 
 --
@@ -106,6 +139,14 @@ CREATE TABLE `tb_faq` (
   `jawaban` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tb_faq`
+--
+
+INSERT INTO `tb_faq` (`id_faq`, `pertanyaan`, `jawaban`) VALUES
+(1, 'Apa itu NHCare?', 'NHCare...'),
+(2, 'Apa saja metode pembayaran di NHCare?', 'Metode pembayaran NHCare...');
+
 -- --------------------------------------------------------
 
 --
@@ -117,18 +158,13 @@ CREATE TABLE `tb_jabatan_pegawai` (
   `nama_jabatan` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `tb_paket_donasi`
+-- Dumping data for table `tb_jabatan_pegawai`
 --
 
-CREATE TABLE `tb_paket_donasi` (
-  `id_paket_donasi` int(11) NOT NULL,
-  `nama_paket` varchar(64) NOT NULL,
-  `nominal` int(11) NOT NULL,
-  `tgl_donasi` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `tb_jabatan_pegawai` (`id_jabatan`, `nama_jabatan`) VALUES
+(1, 'Admin'),
+(2, 'Operator');
 
 -- --------------------------------------------------------
 
@@ -153,6 +189,14 @@ CREATE TABLE `tb_pegawai` (
   `id_jabatan` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tb_pegawai`
+--
+
+INSERT INTO `tb_pegawai` (`id_pegawai`, `nama`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `pendidikan_terakhir`, `status_kepegawaian`, `alamat`, `no_hp`, `email`, `tanggal_masuk`, `status`, `img_pegawai`, `id_jabatan`) VALUES
+(1, 'Pegawai 1', '', '', '0000-00-00', '', '', '', '', 'p1@gmail.com', '0000-00-00', '', '', 1),
+(2, 'Pegawai 2', '', '', '0000-00-00', '', '', '', '', 'p2@gmail.com', '0000-00-00', '', '', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -163,8 +207,17 @@ CREATE TABLE `tb_pengeluaran` (
   `id_pengeluaran` int(11) NOT NULL,
   `nama_pengeluaran` varchar(64) NOT NULL,
   `nominal` int(11) NOT NULL,
-  `tgl_pengeluaran` datetime NOT NULL
+  `tgl_pengeluaran` datetime NOT NULL,
+  `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_pengeluaran`
+--
+
+INSERT INTO `tb_pengeluaran` (`id_pengeluaran`, `nama_pengeluaran`, `nominal`, `tgl_pengeluaran`, `id_user`) VALUES
+(1, 'Pengeluaran 1', 1000000, '2023-11-14 03:37:45', 1),
+(2, 'Pengeluaran 2', 2000000, '2023-11-14 03:37:45', 1);
 
 -- --------------------------------------------------------
 
@@ -179,6 +232,14 @@ CREATE TABLE `tb_program` (
   `img_program` blob NOT NULL,
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_program`
+--
+
+INSERT INTO `tb_program` (`id_program`, `judul`, `deskripsi`, `img_program`, `id_user`) VALUES
+(1, 'Program 1', '', '', 1),
+(2, 'Program 2', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -217,6 +278,14 @@ CREATE TABLE `tb_wali` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `tb_wali`
+--
+
+INSERT INTO `tb_wali` (`id_wali`, `nik`, `nama`, `no_hp`, `hubungan`, `id_anakasuh`) VALUES
+(1, '', 'Wali 1', '', '', 1),
+(2, '', 'Wali 2', '', '', 2);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -237,7 +306,8 @@ ALTER TABLE `tb_anakasuh`
 -- Indexes for table `tb_donasi`
 --
 ALTER TABLE `tb_donasi`
-  ADD PRIMARY KEY (`id_donasi`);
+  ADD PRIMARY KEY (`id_donasi`),
+  ADD KEY `id_donatur` (`id_donatur`);
 
 --
 -- Indexes for table `tb_donatur`
@@ -258,12 +328,6 @@ ALTER TABLE `tb_jabatan_pegawai`
   ADD PRIMARY KEY (`id_jabatan`);
 
 --
--- Indexes for table `tb_paket_donasi`
---
-ALTER TABLE `tb_paket_donasi`
-  ADD PRIMARY KEY (`id_paket_donasi`);
-
---
 -- Indexes for table `tb_pegawai`
 --
 ALTER TABLE `tb_pegawai`
@@ -274,7 +338,8 @@ ALTER TABLE `tb_pegawai`
 -- Indexes for table `tb_pengeluaran`
 --
 ALTER TABLE `tb_pengeluaran`
-  ADD PRIMARY KEY (`id_pengeluaran`);
+  ADD PRIMARY KEY (`id_pengeluaran`),
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Indexes for table `tb_program`
@@ -307,10 +372,22 @@ ALTER TABLE `tb_acara`
   ADD CONSTRAINT `user_acara_c1` FOREIGN KEY (`id_user`) REFERENCES `tb_user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `tb_donasi`
+--
+ALTER TABLE `tb_donasi`
+  ADD CONSTRAINT `donatur_donasi_c1` FOREIGN KEY (`id_donatur`) REFERENCES `tb_donatur` (`id_donatur`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `tb_pegawai`
 --
 ALTER TABLE `tb_pegawai`
   ADD CONSTRAINT `pegawai_jabatan_c1` FOREIGN KEY (`id_jabatan`) REFERENCES `tb_jabatan_pegawai` (`id_jabatan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tb_pengeluaran`
+--
+ALTER TABLE `tb_pengeluaran`
+  ADD CONSTRAINT `user_pengeluaran_c1` FOREIGN KEY (`id_user`) REFERENCES `tb_user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tb_program`

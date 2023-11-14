@@ -99,15 +99,15 @@ function pageMaker(index, item_per_page, activePage){
     activePage[index-1].classList.add("active");
 }
 
-var search = document.getElementById("search");
-search.onkeyup = e=>{
-    const text = e.target.value;
-    for(let i=0; i<tr.length; i++){
-        const matchText = tr[i].querySelectorAll("td")[2].innerText;
-        if(matchText.toLowerCase().indexOf(text.toLowerCase()) > -1){
-            tr[i].style.visibility = "visible";
-        }else{
-            tr[i].style.visibility= "collapse";
-        }
-    }
-}
+// var search = document.getElementById("search");
+// search.onkeyup = e=>{
+//     const text = e.target.value;
+//     for(let i=0; i<tr.length; i++){
+//         const matchText = tr[i].querySelectorAll("td")[2].innerText;
+//         if(matchText.toLowerCase().indexOf(text.toLowerCase()) > -1){
+//             tr[i].style.visibility = "visible";
+//         }else{
+//             tr[i].style.visibility= "collapse";
+//         }
+//     }
+// }

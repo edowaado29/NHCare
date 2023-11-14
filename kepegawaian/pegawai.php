@@ -11,6 +11,9 @@ if(!isset($_SESSION['login'])){
 $email = $_SESSION['login'];
 $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
 
+$obj = new Functions();
+$selectPegawai = $obj->get_data("SELECT tb_pegawai.nama AS nama_pegawai, tb_pegawai.email AS email_pegawai, tb_jabatan_pegawai.nama_jabatan AS jabatan_pegawai FROM tb_pegawai JOIN tb_jabatan_pegawai ON tb_pegawai.id_jabatan = tb_jabatan_pegawai.id_jabatan");
+
 ?>
 
 <!DOCTYPE html>
@@ -113,7 +116,6 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="../donasi/pemasukan.php">Donasi</a></li>
-                    <li><a href="../donasi/paket.php">Paket Donasi</a></li>
                     <li><a href="../donasi/pemasukan.php">Pemasukan</a></li>
                     <li><a href="../donasi/pengeluaran.php">Pengeluaran</a></li>
                 </ul>
@@ -172,90 +174,32 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Nama Pegawai</th>
+                                <th>Email</th>
+                                <th>Jabatan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php 
+                            $no = 1;
+                            while($row = mysqli_fetch_assoc($selectPegawai)) :
+                            ?>
                             <tr>
-                                <td>1</td>
+                                <td><?php echo $no; ?></td>
+                                <td><?php echo $row['nama_pegawai']; ?></td>
+                                <td><?php echo $row['email_pegawai']; ?></td>
+                                <td><?php echo $row['jabatan_pegawai']; ?></td>
                                 <td>
                                     <button><i class='bx bx-show' ></i></button>
                                     <button><i class='bx bxs-edit'></i></button>
                                     <button><i class='bx bxs-trash' ></i></button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
+                            <?php 
+                            $no++;
+                            endwhile;
+                            ?>
                         </tbody>
                     </table>
                 </div>

@@ -113,7 +113,6 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="../donasi/pemasukan.php">Donasi</a></li>
-                    <li><a href="../donasi/paket.php">Paket Donasi</a></li>
                     <li><a href="../donasi/pemasukan.php">Pemasukan</a></li>
                     <li><a href="../donasi/pengeluaran.php">Pengeluaran</a></li>
                 </ul>

@@ -113,7 +113,6 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="../donasi/pemasukan.php">Donasi</a></li>
-                    <li><a href="../donasi/paket.php">Paket Donasi</a></li>
                     <li><a href="../donasi/pemasukan.php">Pemasukan</a></li>
                     <li><a href="../donasi/pengeluaran.php">Pengeluaran</a></li>
                 </ul>
@@ -151,121 +150,6 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
             <h3>Dashboard</h3>
         </div>
         <div class="home-body">
-            <div class="table">
-                <div class="table-header">
-                    <div class="show">
-                        <p>Show</p>
-                        <select id="itemperpage">
-                            <option value="10" selected>10</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                        <p>Per Page</p>
-                    </div>
-                    <div>
-                        <input type="text" id="search" placeholder="Cari...">
-                        <button class="add-new"><i class='bx bx-plus'></i> Tambah Data</button>
-                    </div>
-                </div>
-                <div class="table-section">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="bottom-field">
-                <ul class="pagination">
-                  <li class="prev"><a href="#" id="prev">&#139;</a></li>
-                  <li class="next"><a href="#" id="next">&#155;</a></li>
-                </ul>
-            </div>
-            </div>
         </div>
     </section>
 

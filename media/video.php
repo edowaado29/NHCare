@@ -12,7 +12,7 @@ $email = $_SESSION['login'];
 $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
 
 $obj = new Functions();
-$selectPengeluaran = $obj->get_data("SELECT tb_pengeluaran.nama_pengeluaran AS nama_pengeluaran, tb_pengeluaran.nominal AS nominal_pengeluaran, tb_user.nama AS nama_user FROM tb_pengeluaran JOIN tb_user ON tb_pengeluaran.id_user = tb_user.id_user");
+$selectVideo = $obj->get_data("SELECT * FROM tb_video");
 
 ?>
 
@@ -21,7 +21,7 @@ $selectPengeluaran = $obj->get_data("SELECT tb_pengeluaran.nama_pengeluaran AS n
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengeluaran</title>
+    <title>Video</title>
     <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/alert.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
@@ -107,7 +107,7 @@ $selectPengeluaran = $obj->get_data("SELECT tb_pengeluaran.nama_pengeluaran AS n
                 </ul>
             </li>
             <li>
-                <div class="icon-link">
+                <div class="icon-link active">
                     <a href="../media/video.php">
                         <i class='bx bx-play'></i>
                         <span class="link_name">Media</span>
@@ -121,7 +121,7 @@ $selectPengeluaran = $obj->get_data("SELECT tb_pengeluaran.nama_pengeluaran AS n
                 </ul>
             </li>
             <li>
-                <div class="icon-link active">
+                <div class="icon-link">
                     <a href="../donasi/pemasukan.php">
                         <i class='bx bx-money' ></i>
                         <span class="link_name">Donasi</span>
@@ -164,7 +164,7 @@ $selectPengeluaran = $obj->get_data("SELECT tb_pengeluaran.nama_pengeluaran AS n
     <section class="home-section">
         <div class="home-content">
             <i class='bx bx-menu' ></i>
-            <h3>Pengeluaran</h3>
+            <h3>Video</h3>
         </div>
         <div class="home-body">
             <div class="table">
@@ -188,22 +188,18 @@ $selectPengeluaran = $obj->get_data("SELECT tb_pengeluaran.nama_pengeluaran AS n
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Pengeluaran</th>
-                                <th>Nominal Pengeluaran</th>
-                                <th>Nama User</th>
+                                <th>URL Video</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php 
                             $no = 1;
-                            while($row = mysqli_fetch_assoc($selectPengeluaran)) :
+                            while($row = mysqli_fetch_assoc($selectVideo)) :
                             ?>
                             <tr>
                                 <td><?php echo $no; ?></td>
-                                <td><?php echo $row['nama_pengeluaran']; ?></td>
-                                <td><?php echo $row['nominal_pengeluaran']; ?></td>
-                                <td><?php echo $row['nama_user']; ?></td>
+                                <td><?php echo $row['url_video']; ?></td>
                                 <td>
                                     <button><i class='bx bx-show' ></i></button>
                                     <button><i class='bx bxs-edit'></i></button>

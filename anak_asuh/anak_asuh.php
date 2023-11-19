@@ -108,6 +108,20 @@ $selectAnakAsuh = $obj->get_data("SELECT * FROM tb_anakasuh");
             </li>
             <li>
                 <div class="icon-link">
+                    <a href="../media/video.php">
+                        <i class='bx bx-play'></i>
+                        <span class="link_name">Media</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="../media/video.php">Media</a></li>
+                    <li><a href="../media/video.php">Video</a></li>
+                    <li><a href="../media/website.php">Website</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="icon-link">
                     <a href="../donasi/pemasukan.php">
                         <i class='bx bx-money' ></i>
                         <span class="link_name">Donasi</span>
@@ -211,24 +225,6 @@ $selectAnakAsuh = $obj->get_data("SELECT * FROM tb_anakasuh");
 
     <script type="text/javascript" src="../assets/js/sidebar.js"></script>
     <script type="text/javascript" src="../assets/js/table.js"></script>
-
-    <?php 
-    if($_SESSION['login_success'] == true){
-        ?>
-        <script>
-            var errorMsg = "Login berhasil!";
-            $('.msg').text(errorMsg);
-            $('.alert-success').removeClass("hide");
-            $('.alert-success').addClass("show");
-            $('.alert-success').addClass("showAlert");
-            setTimeout(function(){
-                $('.alert-success').removeClass("show");
-                $('.alert-success').addClass("hide");
-            }, 5000);
-        </script>
-        <?php
-        $_SESSION['login_success'] = false;
-    }
-    ?>
+    
 </body>
 </html>

@@ -1,0 +1,65 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.card-body {
+    width: 96%;
+    height: 88vh;
+    background: #fff;
+    margin-left: 2%;
+    border-radius: 10px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.card-body label {
+    font-weight: bold;
+}
+.card-body input[type="text"],
+.card-body input[type="file"],
+.card-body button,
+.card-body textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline-color: #59A773;
+   
+    
+}
+.btn-success {
+    margin-top: 10px;
+    background-color: #59A773;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.btn-secondary{
+    margin-top: 10px;
+    background-color: rgb(224, 224, 224);
+    color:#59A773;
+    cursor: pointer;
+}
+
+.card-body button:hover {
+    background-color: #218838;
+}
+.btn-container {
+    display: flex;
+    gap: 10px; 
+    justify-content: flex-end; 
+}
+
+
+
+
+

@@ -14,6 +14,21 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
 $obj = new Functions();
 $selectProgram = $obj->get_data("SELECT * FROM tb_program");
 
+//untuk hapus data
+if (isset($_POST['hapus'])) {
+    $idToDelete = $_POST['hapus'];
+    $result = $obj->delete_data('tb_program', "id_program = '$idToDelete'");
+    if ($result) {
+        $_SESSION['delete_success'] = true;
+    } else {
+        $_SESSION['delete_success'] = false;
+    }
+    header("Location: ../layanan/program.php");
+    exit();
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -166,7 +181,7 @@ $selectProgram = $obj->get_data("SELECT * FROM tb_program");
                     </div>
                     <div>
                         <input type="text" id="search" placeholder="Cari...">
-                        <button class="add-new"><i class='bx bx-plus'></i> Tambah Data</button>
+                        <button type="button" onclick="window.location.href='create_program.php'" class="add-new" id="addProgram"><i class='bx bx-plus'></i> Tambah Data</button>
                     </div>
                 </div>
                 <div class="table-section">
@@ -187,9 +202,11 @@ $selectProgram = $obj->get_data("SELECT * FROM tb_program");
                                 <td><?php echo $no; ?></td>
                                 <td><?php echo $row['judul']; ?></td>
                                 <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
+                                    <form method="POST" action="">
+                                    <button type="button" onclick="window.location.href='detail_program.php?id_program=<?php echo $row['id_program']; ?>'"><i class='bx bxs-show'></i></button>
+                                    <button type="button" onclick="window.location.href='edit_program.php?id_program=<?php echo $row['id_program']; ?>'"><i class='bx bxs-edit'></i></button>
+                                    <button type="submit" name="hapus" value="<?php echo $row['id_program']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus program ini?');"><i class='bx bxs-trash'></i>                                
+                                </form>     
                                 </td>
                             </tr>
                             <?php 
@@ -208,9 +225,33 @@ $selectProgram = $obj->get_data("SELECT * FROM tb_program");
             </div>
         </div>
     </section>
-
     <script type="text/javascript" src="../assets/js/sidebar.js"></script>
-    <script type="text/javascript" src="../assets/js/table.js"></script>
+
+    <script>
+    //search
+    document.getElementById('search').addEventListener('input', function() {
+        var input, filter, table, tbody, tr, td, i, txtValue;
+        input = document.getElementById("search");
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".table tbody");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
+
+    </script>
+    
+    
 
     <?php 
     if($_SESSION['login_success'] == true){

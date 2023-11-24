@@ -22,12 +22,11 @@ $selectProgram = $obj->get_data("SELECT * FROM tb_program where id_program = '$i
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Program</title>
+    <title>Detail Program</title>
     <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/alert.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
-    <link rel="stylesheet" href="../assets/css/table.css">
-    <link rel="stylesheet" href="../assets/css/layout_button.css">
+    <link rel="stylesheet" href="../assets/css/detail.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -154,24 +153,15 @@ $selectProgram = $obj->get_data("SELECT * FROM tb_program where id_program = '$i
             <i class='bx bx-menu' ></i>
             <h3>Detail Program</h3>
         </div>
-        <div class="home-body">
             <div class="table"> 
             <div class="table-header">
-
+           <div class="table-section">
+                    <table>
                     <div>
-                        
                         <button type="button" onclick="window.location.href='program.php'"  class="btn btn-secondary">Kembali</button>
                     </div>
-                </div>
-                <div class="table-section">
-                    <table>
+                        <caption>Data Program</caption>
                         <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Judul Program</th>
-                                <th>Deskripsi</th>
-                                <th>Gambar</th>
-                            </tr>
                         </thead>
                         <tbody>
                             <?php
@@ -179,48 +169,39 @@ $selectProgram = $obj->get_data("SELECT * FROM tb_program where id_program = '$i
                             while ($row = mysqli_fetch_assoc($selectProgram)) :
                             ?>
                                 <tr>
-                                    <td><?php echo $counter; ?></td>
-                                    <td><?php echo $row['judul']; ?></td>
+                                    <th >Judul Program</th>
+                                    <td ><?php echo $row['judul']; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Deskripsi</th>
                                     <td><?php echo $row['deskripsi']; ?></td>
-                                    <td>
-                                        <?php
-                                        // Tampilkan gambar jika ada
-                                        if (!empty($row['img_program'])) {
-                                            $imageData = $row['img_program'];
-                                            $imagePath = '../layanan/upload_img/' . $imageData; // Path ke gambar
-
-                                            if (file_exists($imagePath)) {
-                                                $imageType = exif_imagetype($imagePath); // Dapatkan tipe gambar
-
-                                                $allowedTypes = [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF];
-
-                                                if (in_array($imageType, $allowedTypes)) {
-                                                    // Tampilkan gambar dengan tag <img>
-                                                    echo "<img src='$imagePath' alt='Gambar'>";
-                                                } else {
-                                                    echo "Invalid image data";
-                                                }
-                                            } else {
-                                                echo "Image not found";
-                                            }
-                                        } else {
-                                            echo "No image available";
-                                        }
+                                </tr>
+                                <tr>
+                                    <th>Gambar</th>
+                                    <td><?php
+                                        $img = base64_encode($row['img_program']);
+                                        $imgSrc = "data:image/*;base64," . $img;
                                         ?>
-                                    </td>
+                                        <img src="<?php echo $imgSrc; ?>" alt="Img Program">
+                                        
+                                        </td>
+                                    </th>
                                 </tr>
                                 <?php
                                 $counter++;
                             endwhile;
                             ?>
+                         
                         </tbody>
                     </table>
-                 
+                    
+                </div>
                 </div>
             </div>
-        </div>
     </section>
+   
     <script type="text/javascript" src="../assets/js/sidebar.js"></script>
+    
     
     
 

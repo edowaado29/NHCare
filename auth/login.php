@@ -43,7 +43,6 @@ if(isset($_POST['login'])){
             $error = 2;
         }
     }
-
 }
 
 ?>
@@ -126,6 +125,21 @@ if(isset($_POST['login'])){
         </script>
         <?php
         $_SESSION['logout_success'] = false;
+    } elseif($_SESSION['password_success'] == true){
+        ?>
+        <script>
+            var errorMsg = "Password berhasil diubah!";
+            $('.msg').text(errorMsg);
+            $('.alert-success').removeClass("hide");
+            $('.alert-success').addClass("show");
+            $('.alert-success').addClass("showAlert");
+            setTimeout(function(){
+                $('.alert-success').removeClass("show");
+                $('.alert-success').addClass("hide");
+            }, 5000);
+        </script>
+        <?php
+        $_SESSION['password_success'] = false;
     }
     
     if($error == 1){

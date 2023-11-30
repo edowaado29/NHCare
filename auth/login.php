@@ -9,6 +9,7 @@ if(isset($_SESSION['login'])){
 }
 
 $error = 0;
+$_SESSION['password_success'] = false;
 
 if(isset($_POST['login'])){
     $email = $_POST['email'];
@@ -85,7 +86,7 @@ if(isset($_POST['login'])){
                         <span>Password</span>
                         <div class="flex" style="display: flex;">
                             <input type="password" name="password" id="password">
-                            <i class='bx bx-show-alt' style="margin: 10px; font-size: 24px; cursor: pointer;" onclick="togglePassword()"></i>
+                            <i class='bx bx-show-alt' style="margin: 10px; font-size: 24px; cursor: pointer; position: absolute;" onclick="togglePassword()"></i>
                         </div>
                     </div>
                     <div class="remember">

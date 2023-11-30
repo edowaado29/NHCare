@@ -172,6 +172,7 @@ if (isset($_POST['hapus'])) {
                     </div>
                     <div>
                         <input type="text" id="search" placeholder="Cari...">
+                        <button type="button" class="add-new" style="margin-right: 5px;">Export Excel</button>
                         <button type="button" onclick="window.location.href='create_anak_asuh.php'" class="add-new"><i class='bx bx-plus'></i> Tambah Data</button>
                     </div>
                 </div>

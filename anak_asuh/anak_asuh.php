@@ -40,6 +40,7 @@ if (isset($_POST['hapus'])) {
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="icon" type="image/png" href="../assets/img/nhcare-logo-color.png">
 </head>
 <body>
     <div class="sidebar">
@@ -170,9 +171,11 @@ if (isset($_POST['hapus'])) {
                         </select>
                         <p>Per Page</p>
                     </div>
-                    <div>
+                    <div style="display: flex;">
                         <input type="text" id="search" placeholder="Cari...">
-                        <button type="button" class="add-new" style="margin-right: 5px;">Export Excel</button>
+                        <form action="excel.php" method="POST">
+                            <button type="submit" class="add-new" name="excel" style="margin-right: 5px;">Export Excel</button>
+                        </form>
                         <button type="button" onclick="window.location.href='create_anak_asuh.php'" class="add-new"><i class='bx bx-plus'></i> Tambah Data</button>
                     </div>
                 </div>

@@ -8,6 +8,10 @@ if(!isset($_SESSION['login'])){
     header('Location: ../auth/login.php');
 }
 
+date_default_timezone_set('Asia/Jakarta');
+$dateNow = date('YmdHis');
+$idset = "PG".$dateNow;
+
 $email = $_SESSION['login'];
 $id_user = $_SESSION['id_user'];
 $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
@@ -48,7 +52,7 @@ if(isset($_POST['simpan'])){
                 $_SESSION['big_size'] = true;
                 header("Location: create_pegawai.php");
             } else {
-                $insertPegawai = $obj->insert_data("INSERT INTO tb_pegawai (nbm, nama, jenis_kelamin, tempat_lahir, tanggal_lahir, pendidikan_terakhir, status_kepegawaian, alamat, no_hp, email, tanggal_masuk, tanggal_keluar, img_kk, img_ktp, status, img_pegawai, id_jabatan) VALUES ('$nbm', '$name', '$jenis_kelamin', '$tpt_lahir', '$tgl_lahir', '$last_pend', '$status_kep', '$alamat', '$hp', '$email', '$tgl_masuk', '$tgl_keluar', '$img_kk', '$img_ktp', '$status', '$image', '$jabatan')");
+                $insertPegawai = $obj->insert_data("INSERT INTO tb_pegawai (id_pegawai, nbm, nama, jenis_kelamin, tempat_lahir, tanggal_lahir, pendidikan_terakhir, status_kepegawaian, alamat, no_hp, email, tanggal_masuk, tanggal_keluar, img_kk, img_ktp, status, img_pegawai, id_jabatan) VALUES ('$idset', '$nbm', '$name', '$jenis_kelamin', '$tpt_lahir', '$tgl_lahir', '$last_pend', '$status_kep', '$alamat', '$hp', '$email', '$tgl_masuk', '$tgl_keluar', '$img_kk', '$img_ktp', '$status', '$image', '$jabatan')");
                 if($insertPegawai){
                     $_SESSION['insert_success'] = true;
                     header("Location: pegawai.php");
@@ -78,6 +82,7 @@ if(isset($_POST['simpan'])){
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="icon" type="image/png" href="../assets/img/nhcare-logo-color.png">
 </head>
 <body>
     <div class="sidebar">

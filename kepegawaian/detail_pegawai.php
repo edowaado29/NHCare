@@ -14,7 +14,7 @@ $rowProfile = mysqli_fetch_assoc($result);
 
 $id_pegawai = $_GET['id_pegawai'];
 $obj = new Functions();
-$selectPegawai = $obj->get_data("SELECT tb_pegawai.id_pegawai AS id, tb_pegawai.nbm AS nbm_pegawai, tb_pegawai.nama AS nama_pegawai, tb_pegawai.jenis_kelamin AS jk, tb_pegawai.tempat_lahir AS tpt_lahir, tb_pegawai.tanggal_lahir AS tgl_lahir, tb_pegawai.pendidikan_terakhir AS last_pend, tb_pegawai.status_kepegawaian AS status_kep, tb_pegawai.alamat AS alamat_pegawai, tb_pegawai.no_hp AS hp, tb_pegawai.email AS email_pegawai, tb_pegawai.tanggal_masuk AS tgl_masuk, tb_pegawai.tanggal_keluar AS tgl_keluar, tb_pegawai.img_kk AS kk, tb_pegawai.img_ktp AS ktp, tb_pegawai.status AS status_pegawai, tb_pegawai.img_pegawai AS img, tb_pegawai.id_jabatan AS id_jab, tb_jabatan_pegawai.nama_jabatan AS jabatan_pegawai FROM tb_pegawai JOIN tb_jabatan_pegawai ON tb_pegawai.id_jabatan = tb_jabatan_pegawai.id_jabatan WHERE tb_pegawai.id_pegawai = $id_pegawai");
+$selectPegawai = $obj->get_data("SELECT tb_pegawai.id_pegawai AS id, tb_pegawai.nbm AS nbm_pegawai, tb_pegawai.nama AS nama_pegawai, tb_pegawai.jenis_kelamin AS jk, tb_pegawai.tempat_lahir AS tpt_lahir, tb_pegawai.tanggal_lahir AS tgl_lahir, tb_pegawai.pendidikan_terakhir AS last_pend, tb_pegawai.status_kepegawaian AS status_kep, tb_pegawai.alamat AS alamat_pegawai, tb_pegawai.no_hp AS hp, tb_pegawai.email AS email_pegawai, tb_pegawai.tanggal_masuk AS tgl_masuk, tb_pegawai.tanggal_keluar AS tgl_keluar, tb_pegawai.img_kk AS kk, tb_pegawai.img_ktp AS ktp, tb_pegawai.status AS status_pegawai, tb_pegawai.img_pegawai AS img, tb_pegawai.id_jabatan AS id_jab, tb_jabatan_pegawai.nama_jabatan AS jabatan_pegawai FROM tb_pegawai JOIN tb_jabatan_pegawai ON tb_pegawai.id_jabatan = tb_jabatan_pegawai.id_jabatan WHERE tb_pegawai.id_pegawai = '$id_pegawai'");
 
 ?>
 
@@ -31,6 +31,7 @@ $selectPegawai = $obj->get_data("SELECT tb_pegawai.id_pegawai AS id, tb_pegawai.
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="icon" type="image/png" href="../assets/img/nhcare-logo-color.png">
 </head>
 <body>
 <div class="sidebar">

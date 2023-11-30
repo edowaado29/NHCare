@@ -1,6 +1,6 @@
 <?php 
 
-$conn = mysqli_connect("localhost", "root", "", "db_nhcare");
+$conn = mysqli_connect("localhost", "tifcmyho_nhcare", "@JTIpolije2023", "tifcmyho_nhcare");
 
 class Functions {
 

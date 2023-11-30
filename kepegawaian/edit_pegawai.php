@@ -16,7 +16,7 @@ $rowProfile = mysqli_fetch_assoc($result);
 $id_pegawai = $_GET['id_pegawai'];
 
 $obj = new Functions();
-$selectPegawai = $obj->get_data("SELECT tb_pegawai.id_pegawai AS id, tb_pegawai.nbm AS nbm_pegawai, tb_pegawai.nama AS nama_pegawai, tb_pegawai.jenis_kelamin AS jk, tb_pegawai.tempat_lahir AS tpt_lahir, tb_pegawai.tanggal_lahir AS tgl_lahir, tb_pegawai.pendidikan_terakhir AS last_pend, tb_pegawai.status_kepegawaian AS status_kep, tb_pegawai.alamat AS alamat_pegawai, tb_pegawai.no_hp AS hp, tb_pegawai.email AS email_pegawai, tb_pegawai.tanggal_masuk AS tgl_masuk, tb_pegawai.tanggal_keluar AS tgl_keluar, tb_pegawai.img_kk AS kk, tb_pegawai.img_ktp AS ktp, tb_pegawai.status AS status_pegawai, tb_pegawai.img_pegawai AS img, tb_pegawai.id_jabatan AS id_jab, tb_jabatan_pegawai.nama_jabatan AS jabatan_pegawai FROM tb_pegawai JOIN tb_jabatan_pegawai ON tb_pegawai.id_jabatan = tb_jabatan_pegawai.id_jabatan WHERE tb_pegawai.id_pegawai = $id_pegawai");
+$selectPegawai = $obj->get_data("SELECT tb_pegawai.id_pegawai AS id, tb_pegawai.nbm AS nbm_pegawai, tb_pegawai.nama AS nama_pegawai, tb_pegawai.jenis_kelamin AS jk, tb_pegawai.tempat_lahir AS tpt_lahir, tb_pegawai.tanggal_lahir AS tgl_lahir, tb_pegawai.pendidikan_terakhir AS last_pend, tb_pegawai.status_kepegawaian AS status_kep, tb_pegawai.alamat AS alamat_pegawai, tb_pegawai.no_hp AS hp, tb_pegawai.email AS email_pegawai, tb_pegawai.tanggal_masuk AS tgl_masuk, tb_pegawai.tanggal_keluar AS tgl_keluar, tb_pegawai.img_kk AS kk, tb_pegawai.img_ktp AS ktp, tb_pegawai.status AS status_pegawai, tb_pegawai.img_pegawai AS img, tb_pegawai.id_jabatan AS id_jab, tb_jabatan_pegawai.nama_jabatan AS jabatan_pegawai FROM tb_pegawai JOIN tb_jabatan_pegawai ON tb_pegawai.id_jabatan = tb_jabatan_pegawai.id_jabatan WHERE tb_pegawai.id_pegawai = '$id_pegawai'");
 $rowPegawai = mysqli_fetch_assoc($selectPegawai);
 
 if(isset($_POST['simpan'])){
@@ -36,25 +36,116 @@ if(isset($_POST['simpan'])){
     $tgl_keluar = $_POST['tgl_keluar'];
     $status = $_POST['status'];
 
-    if(empty($nbm) || empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($last_pend) || empty($jabatan) || empty($status_kep) || empty($alamat) || empty($hp) || empty($tgl_masuk) || empty($status) || empty($_FILES['file']['tmp_name']) || empty($_FILES['img_kk']['tmp_name']) || empty($_FILES['img_ktp']['tmp_name'])){
+    if(empty($nbm) || empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($last_pend) || empty($jabatan) || empty($status_kep) || empty($alamat) || empty($hp) || empty($tgl_masuk) || empty($status)){
         $_SESSION['empty_form'] = true;
     } else {
         if(filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
-            $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
-            $img_ktp = addslashes(file_get_contents($_FILES['img_ktp']['tmp_name']));
-            $file_size = $_FILES['file']['size'];
-            $kk_size = $_FILES['img_kk']['size'];
-            $ktp_size = $_FILES['img_ktp']['size'];
-            $max_file_size = 64 * 1024;
-
-            if ($file_size > $max_file_size || $kk_size > $max_file_size || $ktp_size > $max_file_size) {
-                $_SESSION['big_size'] = true;
-            } else {
-                $updatePegawai = $obj->update_data("UPDATE tb_pegawai SET nbm='$nbm', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', pendidikan_terakhir='$last_pend', status_kepegawaian='$status_kep', alamat='$alamat', no_hp='$hp', email='$email', tanggal_masuk='$tgl_masuk', tanggal_keluar='$tgl_keluar', img_kk='$img_kk', img_ktp='$img_ktp', status='$status', img_pegawai='$image', id_jabatan='$jabatan' WHERE id_pegawai=$id");
+            if(empty($_FILES['img_kk']['tmp_name']) && empty($_FILES['img_ktp']['tmp_name']) && empty($_FILES['file']['tmp_name'])){
+                $updatePegawai = $obj->update_data("UPDATE tb_pegawai SET nbm='$nbm', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', pendidikan_terakhir='$last_pend', status_kepegawaian='$status_kep', alamat='$alamat', no_hp='$hp', email='$email', tanggal_masuk='$tgl_masuk', tanggal_keluar='$tgl_keluar', status='$status', id_jabatan='$jabatan' WHERE id_pegawai='$id'");
                 if($updatePegawai){
                     $_SESSION['update_success'] = true;
                     header("Location: pegawai.php");
+                }
+            } elseif(empty($_FILES['img_ktp']['tmp_name']) && empty($_FILES['img']['tmp_name'])){
+                $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
+                $kk_size = $_FILES['img_kk']['size'];
+                $max_file_size = 64 * 1024;
+                if ($kk_size > $max_file_size) {
+                    $_SESSION['big_size'] = true;
+                } else {
+                    $updatePegawai = $obj->update_data("UPDATE tb_pegawai SET nbm='$nbm', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', pendidikan_terakhir='$last_pend', status_kepegawaian='$status_kep', alamat='$alamat', no_hp='$hp', email='$email', tanggal_masuk='$tgl_masuk', tanggal_keluar='$tgl_keluar', img_kk='$img_kk', status='$status', id_jabatan='$jabatan' WHERE id_pegawai='$id'");
+                    if($updatePegawai){
+                        $_SESSION['update_success'] = true;
+                        header("Location: pegawai.php");
+                    }
+                }
+            } elseif(empty($_FILES['img_kk']['tmp_name']) && empty($_FILES['file']['tmp_name'])){
+                $img_ktp = addslashes(file_get_contents($_FILES['img_ktp']['tmp_name']));
+                $ktp_size = $_FILES['img_ktp']['size'];
+                $max_file_size = 64 * 1024;
+                if ($ktp_size > $max_file_size) {
+                    $_SESSION['big_size'] = true;
+                } else {
+                    $updatePegawai = $obj->update_data("UPDATE tb_pegawai SET nbm='$nbm', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', pendidikan_terakhir='$last_pend', status_kepegawaian='$status_kep', alamat='$alamat', no_hp='$hp', email='$email', tanggal_masuk='$tgl_masuk', tanggal_keluar='$tgl_keluar', img_ktp='$img_ktp', status='$status', id_jabatan='$jabatan' WHERE id_pegawai='$id'");
+                    if($updatePegawai){
+                        $_SESSION['update_success'] = true;
+                        header("Location: pegawai.php");
+                    }
+                }
+            } elseif(empty($_FILES['img_kk']['tmp_name']) && empty($_FILES['img_ktp']['tmp_name'])){
+                $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+                $file_size = $_FILES['file']['size'];
+                $max_file_size = 64 * 1024;
+                if ($file_size > $max_file_size) {
+                    $_SESSION['big_size'] = true;
+                } else {
+                    $updatePegawai = $obj->update_data("UPDATE tb_pegawai SET nbm='$nbm', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', pendidikan_terakhir='$last_pend', status_kepegawaian='$status_kep', alamat='$alamat', no_hp='$hp', email='$email', tanggal_masuk='$tgl_masuk', tanggal_keluar='$tgl_keluar', status='$status', img_pegawai='$image', id_jabatan='$jabatan' WHERE id_pegawai='$id'");
+                    if($updatePegawai){
+                        $_SESSION['update_success'] = true;
+                        header("Location: pegawai.php");
+                    }
+                }
+            } elseif(empty($_FILES['file']['tmp_name'])){
+                $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
+                $img_ktp = addslashes(file_get_contents($_FILES['img_ktp']['tmp_name']));
+                $kk_size = $_FILES['img_kk']['size'];
+                $ktp_size = $_FILES['img_ktp']['size'];
+                $max_file_size = 64 * 1024;
+                if ($kk_size > $max_file_size || $ktp_size > $max_file_size) {
+                    $_SESSION['big_size'] = true;
+                } else {
+                    $updatePegawai = $obj->update_data("UPDATE tb_pegawai SET nbm='$nbm', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', pendidikan_terakhir='$last_pend', status_kepegawaian='$status_kep', alamat='$alamat', no_hp='$hp', email='$email', tanggal_masuk='$tgl_masuk', tanggal_keluar='$tgl_keluar', img_kk='$img_kk', img_ktp='$img_ktp', status='$status', id_jabatan='$jabatan' WHERE id_pegawai='$id'");
+                    if($updatePegawai){
+                        $_SESSION['update_success'] = true;
+                        header("Location: pegawai.php");
+                    }
+                }
+            } elseif(empty($_FILES['img_kTP']['tmp_name'])){
+                $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+                $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
+                $file_size = $_FILES['file']['size'];
+                $kk_size = $_FILES['img_kk']['size'];
+                $max_file_size = 64 * 1024;
+                if ($file_size > $max_file_size || $kk_size > $max_file_size) {
+                    $_SESSION['big_size'] = true;
+                } else {
+                    $updatePegawai = $obj->update_data("UPDATE tb_pegawai SET nbm='$nbm', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', pendidikan_terakhir='$last_pend', status_kepegawaian='$status_kep', alamat='$alamat', no_hp='$hp', email='$email', tanggal_masuk='$tgl_masuk', tanggal_keluar='$tgl_keluar', img_kk='$img_kk', status='$status', img_pegawai='$image', id_jabatan='$jabatan' WHERE id_pegawai='$id'");
+                    if($updatePegawai){
+                        $_SESSION['update_success'] = true;
+                        header("Location: pegawai.php");
+                    }
+                }
+            } elseif(empty($_FILES['img_kk']['tmp_name'])){
+                $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+                $img_ktp = addslashes(file_get_contents($_FILES['img_ktp']['tmp_name']));
+                $file_size = $_FILES['file']['size'];
+                $ktp_size = $_FILES['img_ktp']['size'];
+                $max_file_size = 64 * 1024;
+                if ($file_size > $max_file_size || $ktp_size > $max_file_size) {
+                    $_SESSION['big_size'] = true;
+                } else {
+                    $updatePegawai = $obj->update_data("UPDATE tb_pegawai SET nbm='$nbm', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', pendidikan_terakhir='$last_pend', status_kepegawaian='$status_kep', alamat='$alamat', no_hp='$hp', email='$email', tanggal_masuk='$tgl_masuk', tanggal_keluar='$tgl_keluar', img_ktp='$img_ktp', status='$status', img_pegawai='$image', id_jabatan='$jabatan' WHERE id_pegawai='$id'");
+                    if($updatePegawai){
+                        $_SESSION['update_success'] = true;
+                        header("Location: pegawai.php");
+                    }
+                }
+            } else {
+                $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+                $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
+                $img_ktp = addslashes(file_get_contents($_FILES['img_ktp']['tmp_name']));
+                $file_size = $_FILES['file']['size'];
+                $kk_size = $_FILES['img_kk']['size'];
+                $ktp_size = $_FILES['img_ktp']['size'];
+                $max_file_size = 64 * 1024;
+                if ($file_size > $max_file_size || $kk_size > $max_file_size || $ktp_size > $max_file_size) {
+                    $_SESSION['big_size'] = true;
+                } else {
+                    $updatePegawai = $obj->update_data("UPDATE tb_pegawai SET nbm='$nbm', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', pendidikan_terakhir='$last_pend', status_kepegawaian='$status_kep', alamat='$alamat', no_hp='$hp', email='$email', tanggal_masuk='$tgl_masuk', tanggal_keluar='$tgl_keluar', img_kk='$img_kk', img_ktp='$img_ktp', status='$status', img_pegawai='$image', id_jabatan='$jabatan' WHERE id_pegawai='$id'");
+                    if($updatePegawai){
+                        $_SESSION['update_success'] = true;
+                        header("Location: pegawai.php");
+                    }
                 }
             }
         }
@@ -76,6 +167,7 @@ if(isset($_POST['simpan'])){
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="icon" type="image/png" href="../assets/img/nhcare-logo-color.png">
 </head>
 <body>
     <div class="sidebar">

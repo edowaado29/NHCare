@@ -9,7 +9,6 @@ if(isset($_SESSION['login'])){
 }
 
 $error = 0;
-$_SESSION['password_success'] = false;
 
 if(isset($_POST['login'])){
     $email = $_POST['email'];
@@ -60,6 +59,7 @@ if(isset($_POST['login'])){
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="icon" type="image/png" href="../assets/img/nhcare-logo-color.png">
 </head>
 <body>
     <div class="alert-danger hide">
@@ -86,7 +86,7 @@ if(isset($_POST['login'])){
                         <span>Password</span>
                         <div class="flex" style="display: flex;">
                             <input type="password" name="password" id="password">
-                            <i class='bx bx-show-alt' style="margin: 10px; font-size: 24px; cursor: pointer; position: absolute;" onclick="togglePassword()"></i>
+                            <i class='bx bx-show-alt' style="margin: 10px; font-size: 24px; cursor: pointer;" onclick="togglePassword()"></i>
                         </div>
                     </div>
                     <div class="remember">
@@ -203,3 +203,7 @@ if(isset($_POST['login'])){
     ?>
 </body>
 </html>
+
+<?php 
+
+?>

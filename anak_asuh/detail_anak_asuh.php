@@ -14,7 +14,7 @@ $rowProfile = mysqli_fetch_assoc($result);
 
 $id_anakasuh = $_GET['id_anakasuh'];
 $obj = new Functions();
-$selectAnak = $obj->get_data("SELECT * FROM tb_anakasuh WHERE id_anakasuh = $id_anakasuh");
+$selectAnak = $obj->get_data("SELECT * FROM tb_anakasuh WHERE id_anakasuh = '$id_anakasuh'");
 
 ?>
 
@@ -31,6 +31,7 @@ $selectAnak = $obj->get_data("SELECT * FROM tb_anakasuh WHERE id_anakasuh = $id_
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="icon" type="image/png" href="../assets/img/nhcare-logo-color.png">
 </head>
 <body>
 <div class="sidebar">

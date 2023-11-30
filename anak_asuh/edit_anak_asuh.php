@@ -16,7 +16,7 @@ $rowProfile = mysqli_fetch_assoc($result);
 $id_anakasuh = $_GET['id_anakasuh'];
 
 $obj = new Functions();
-$selectAnak = $obj->get_data("SELECT * FROM tb_anakasuh WHERE id_anakasuh = $id_anakasuh");
+$selectAnak = $obj->get_data("SELECT * FROM tb_anakasuh WHERE id_anakasuh = '$id_anakasuh'");
 $rowAnak = mysqli_fetch_assoc($selectAnak);
 
 if(isset($_POST['simpan'])){
@@ -45,26 +45,226 @@ if(isset($_POST['simpan'])){
     $nik_wali = $_POST['nik_wali'];
     $status = $_POST['status'];
 
-    if(empty($nik) || empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($alamat) || empty($ket) || empty($asrama) || empty($akta) || empty($kk) || empty($skko) || empty($_FILES['file']['tmp_name']) || empty($_FILES['img_akta']['tmp_name']) || empty($_FILES['img_kk']['tmp_name']) || empty($_FILES['img_skko']['tmp_name'])){
+    if(empty($nik) || empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($alamat) || empty($ket) || empty($asrama) || empty($akta) || empty($kk) || empty($skko)){
         $_SESSION['empty_form'] = true;
     } else {
-        $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
-        $img_akta = addslashes(file_get_contents($_FILES['img_akta']['tmp_name']));
-        $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
-        $img_skko = addslashes(file_get_contents($_FILES['img_skko']['tmp_name']));
-        $file_size = $_FILES['file']['size'];
-        $akta_size = $_FILES['img_akta']['size'];
-        $kk_size = $_FILES['img_kk']['size'];
-        $skko_size = $_FILES['img_skko']['size'];
-        $max_file_size = 64 * 1024;
-
-        if($file_size > $max_file_size || $akta_size > $max_file_size || $kk_size > $max_file_size || $skko_size > $max_file_size){
-            $_SESSION['big_size'] = true;
-        } else {
-            $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', img_akta='$img_akta', no_kk='$kk', img_kk='$img_kk', no_skko='$skko', img_skko='$img_skko', status='$status', img_anak='$image', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh=$id");
+        if(empty($_FILES['img_akta']['tmp_name']) && empty($_FILES['img_kk']['tmp_name']) && empty($_FILES['img_skko']['tmp_name']) && empty($_FILES['file']['tmp_name'])){
+            $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', no_kk='$kk', no_skko='$skko', status='$status', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
             if($updateAnak){
                 $_SESSION['update_success'] = true;
                 header("Location: anak_asuh.php");
+            }
+        } elseif(empty($_FILES['img_kk']['tmp_name']) && empty($_FILES['img_skko']['tmp_name']) && empty($_FILES['file']['tmp_name'])){
+            $img_akta = addslashes(file_get_contents($_FILES['img_akta']['tmp_name']));
+            $akta_size = $_FILES['img_akta']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($akta_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', img_akta='$img_akta', no_kk='$kk', no_skko='$skko', status='$status', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } elseif(empty($_FILES['img_akta']['tmp_name']) && empty($_FILES['img_skko']['tmp_name']) && empty($_FILES['file']['tmp_name'])){
+            $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
+            $kk_size = $_FILES['img_kk']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($file_size > $max_file_size || $akta_size > $max_file_size || $kk_size > $max_file_size || $skko_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', no_kk='$kk', img_kk='$img_kk', no_skko='$skko', status='$status', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } elseif(empty($_FILES['img_akta']['tmp_name']) && empty($_FILES['img_kk']['tmp_name']) && empty($_FILES['file']['tmp_name'])){
+            $img_skko = addslashes(file_get_contents($_FILES['img_skko']['tmp_name']));
+            $skko_size = $_FILES['img_skko']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($skko_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', no_kk='$kk', no_skko='$skko', img_skko='$img_skko', status='$status', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } elseif(empty($_FILES['img_akta']['tmp_name']) && empty($_FILES['img_kk']['tmp_name']) && empty($_FILES['img_skko']['tmp_name'])){
+            $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+            $file_size = $_FILES['file']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($file_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', no_kk='$kk', no_skko='$skko', status='$status', img_anak='$image', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } elseif(empty($_FILES['img_skko']['tmp_name']) && empty($_FILES['file']['tmp_name'])){
+            $img_akta = addslashes(file_get_contents($_FILES['img_akta']['tmp_name']));
+            $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
+            $akta_size = $_FILES['img_akta']['size'];
+            $kk_size = $_FILES['img_kk']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($$akta_size > $max_file_size || $kk_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', img_akta='$img_akta', no_kk='$kk', img_kk='$img_kk', no_skko='$skko', status='$status', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } elseif(empty($_FILES['img_kk']['tmp_name']) && empty($_FILES['img_skko']['tmp_name'])){
+            $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+            $img_akta = addslashes(file_get_contents($_FILES['img_akta']['tmp_name']));
+            $file_size = $_FILES['file']['size'];
+            $akta_size = $_FILES['img_akta']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($file_size > $max_file_size || $akta_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', img_akta='$img_akta', no_kk='$kk', no_skko='$skko', status='$status', img_anak='$image', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } elseif(empty($_FILES['img_akta']['tmp_name']) && empty($_FILES['img_kk']['tmp_name'])){
+            $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+            $img_skko = addslashes(file_get_contents($_FILES['img_skko']['tmp_name']));
+            $file_size = $_FILES['file']['size'];
+            $skko_size = $_FILES['img_skko']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($file_size > $max_file_size || $skko_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', no_kk='$kk', no_skko='$skko', img_skko='$img_skko', status='$status', img_anak='$image', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } elseif(empty($_FILES['img_akta']['tmp_name']) && empty($_FILES['file']['tmp_name'])){
+            $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
+            $img_skko = addslashes(file_get_contents($_FILES['img_skko']['tmp_name']));
+            $kk_size = $_FILES['img_kk']['size'];
+            $skko_size = $_FILES['img_skko']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($kk_size > $max_file_size || $skko_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', no_kk='$kk', img_kk='$img_kk', no_skko='$skko', img_skko='$img_skko', status='$status', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } elseif(empty($_FILES['file']['tmp_name'])){
+            $img_akta = addslashes(file_get_contents($_FILES['img_akta']['tmp_name']));
+            $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
+            $img_skko = addslashes(file_get_contents($_FILES['img_skko']['tmp_name']));
+            $akta_size = $_FILES['img_akta']['size'];
+            $kk_size = $_FILES['img_kk']['size'];
+            $skko_size = $_FILES['img_skko']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($akta_size > $max_file_size || $kk_size > $max_file_size || $skko_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', img_akta='$img_akta', no_kk='$kk', img_kk='$img_kk', no_skko='$skko', img_skko='$img_skko', status='$status', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } elseif(empty($_FILES['img_skko']['tmp_name'])){
+            $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+            $img_akta = addslashes(file_get_contents($_FILES['img_akta']['tmp_name']));
+            $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
+            $file_size = $_FILES['file']['size'];
+            $akta_size = $_FILES['img_akta']['size'];
+            $kk_size = $_FILES['img_kk']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($file_size > $max_file_size || $akta_size > $max_file_size || $kk_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', img_akta='$img_akta', no_kk='$kk', img_kk='$img_kk', no_skko='$skko', status='$status', img_anak='$image', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } elseif(empty($_FILES['img_kk']['tmp_name'])){
+            $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+            $img_akta = addslashes(file_get_contents($_FILES['img_akta']['tmp_name']));
+            $img_skko = addslashes(file_get_contents($_FILES['img_skko']['tmp_name']));
+            $file_size = $_FILES['file']['size'];
+            $akta_size = $_FILES['img_akta']['size'];
+            $skko_size = $_FILES['img_skko']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($file_size > $max_file_size || $akta_size > $max_file_size || $skko_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', img_akta='$img_akta', no_kk='$kk', no_skko='$skko', img_skko='$img_skko', status='$status', img_anak='$image', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } elseif(empty($_FILES['img_akta']['tmp_name'])){
+            $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+            $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
+            $img_skko = addslashes(file_get_contents($_FILES['img_skko']['tmp_name']));
+            $file_size = $_FILES['file']['size'];
+            $kk_size = $_FILES['img_kk']['size'];
+            $skko_size = $_FILES['img_skko']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($file_size > $max_file_size || $kk_size > $max_file_size || $skko_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', no_kk='$kk', img_kk='$img_kk', no_skko='$skko', img_skko='$img_skko', status='$status', img_anak='$image', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
+            }
+        } else {
+            $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+            $img_akta = addslashes(file_get_contents($_FILES['img_akta']['tmp_name']));
+            $img_kk = addslashes(file_get_contents($_FILES['img_kk']['tmp_name']));
+            $img_skko = addslashes(file_get_contents($_FILES['img_skko']['tmp_name']));
+            $file_size = $_FILES['file']['size'];
+            $akta_size = $_FILES['img_akta']['size'];
+            $kk_size = $_FILES['img_kk']['size'];
+            $skko_size = $_FILES['img_skko']['size'];
+            $max_file_size = 64 * 1024;
+
+            if($file_size > $max_file_size || $akta_size > $max_file_size || $kk_size > $max_file_size || $skko_size > $max_file_size){
+                $_SESSION['big_size'] = true;
+            } else {
+                $updateAnak = $obj->update_data("UPDATE tb_anakasuh SET nik_anak='$nik', nama='$name', jenis_kelamin='$jenis_kelamin', tempat_lahir='$tpt_lahir', tanggal_lahir='$tgl_lahir', alamat='$alamat', keterangan='$ket', asrama='$asrama', no_akta='$akta', img_akta='$img_akta', no_kk='$kk', img_kk='$img_kk', no_skko='$skko', img_skko='$img_skko', status='$status', img_anak='$image', nama_sekolah='$nama_sekolah', tingkat='$tingkat', kelas='$kelas', cabang='$cabang', deskripsi='$deskripsi', nama_ayah='$nama_ayah', nik_ayah='$nik_ayah', nama_ibu='$nama_ibu', nik_ibu='$nik_ibu', nama_wali='$nama_wali', nik_wali='$nik_wali' WHERE id_anakasuh='$id'");
+                if($updateAnak){
+                    $_SESSION['update_success'] = true;
+                    header("Location: anak_asuh.php");
+                }
             }
         }
 
@@ -87,6 +287,7 @@ if(isset($_POST['simpan'])){
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="icon" type="image/png" href="../assets/img/nhcare-logo-color.png">
 </head>
 <body>
     <div class="alert-success hide">

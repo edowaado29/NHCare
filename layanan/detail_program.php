@@ -10,6 +10,7 @@ if(!isset($_SESSION['login'])){
 
 $email = $_SESSION['login'];
 $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
+$rowProfile = mysqli_fetch_assoc($result);
 
 $id_program = $_GET['id_program'];
 $obj = new Functions();
@@ -32,11 +33,7 @@ $selectProgram = $obj->get_data("SELECT * FROM tb_program where id_program = '$i
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 </head>
 <body>
-    <div class="alert-success hide">
-        <span class="bx bxs-check-circle"></span>
-        <span class="msg"></span>
-    </div>
-    <div class="sidebar">
+<div class="sidebar">
         <div class="logo-details">
             <i><img src="../assets/img/nhcare-logo.png" alt="nhcare-logo"></i>
             <span class="logo_name">NHCare</span>
@@ -84,12 +81,9 @@ $selectProgram = $obj->get_data("SELECT * FROM tb_program where id_program = '$i
                         <i class='bx bx-id-card'></i>
                         <span class="link_name">Anak Asuh</span>
                     </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="../anak_asuh/anak_asuh.php">Anak Asuh</a></li>
-                    <li><a href="../anak_asuh/wali.php">Wali</a></li>
-                    <li><a href="../anak_asuh/anak_asuh.php">Anak Asuh</a></li>
                 </ul>
             </li>
             <li>
@@ -109,41 +103,43 @@ $selectProgram = $obj->get_data("SELECT * FROM tb_program where id_program = '$i
             </li>
             <li>
                 <div class="icon-link">
-                    <a href="../donasi/pemasukan.php">
-                        <i class='bx bx-money' ></i>
-                        <span class="link_name">Donasi</span>
+                    <a href="../media/video.php">
+                        <i class='bx bx-play'></i>
+                        <span class="link_name">Media</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="../donasi/pemasukan.php">Donasi</a></li>
-                    <li><a href="../donasi/pemasukan.php">Pemasukan</a></li>
-                    <li><a href="../donasi/pengeluaran.php">Pengeluaran</a></li>
+                    <li><a class="link_name" href="../media/video.php">Media</a></li>
+                    <li><a href="../media/video.php">Video</a></li>
+                    <li><a href="../media/website.php">Website</a></li>
                 </ul>
             </li>
             <li>
                 <div class="icon-link">
-                    <a href="../laporan/laporan.php">
-                        <i class='bx bxs-report' ></i>
-                        <span class="link_name">Laporan</span>
+                    <a href="../donasi/pemasukan.php">
+                        <i class='bx bx-money' ></i>
+                        <span class="link_name">Donasi</span>
                     </a>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="../laporan/laporan.php">Laporan</a></li>
+                    <li><a class="link_name" href="../donasi/pemasukan.php">Donasi</a></li>
                 </ul>
             </li>
             <li>
                 <div class="profile-details">
-                    <div class="profile-content">
-                        <img src="../assets/img/user-profile.jpeg" alt="user-profile">
+                    <div class="profile-content" onclick="window.location.href='../profile/profile.php'">
+                        <?php
+                        $img = base64_encode($rowProfile['img_profile']);
+                        $imgSrc = "data:image/*;base64," . $img;
+                        ?>
+                        <img src="<?php echo $imgSrc; ?>" alt="Img Profile">
                     </div>
                     <div class="name-job">
-                        <?php while($row = mysqli_fetch_assoc($result)) : ?>
-                        <div class="profile-name"><?php echo $row["nama"]; ?></div>
-                        <?php endwhile; ?>
+                        <div class="profile-name"><?php echo $rowProfile["nama"]; ?></div>
                         <div class="job">Administrator</div>
                     </div>
-                    <a href="../auth/logout.php"><i class='bx bx-log-out' ></i></a>
+                    <a href="../auth/logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?');"><i class='bx bx-log-out' ></i></a>
                 </div>
             </li>
         </ul>
@@ -153,75 +149,57 @@ $selectProgram = $obj->get_data("SELECT * FROM tb_program where id_program = '$i
             <i class='bx bx-menu' ></i>
             <h3>Detail Program</h3>
         </div>
+        <div class="home-body">
+            <div class="back-btn">
+                <button type="button" onclick="window.location.href='program.php'"  class="btn btn-danger">Kembali</button>
+            </div>
             <div class="table"> 
-            <div class="table-header">
-           <div class="table-section">
-                    <table>
-                    <div>
-                        <button type="button" onclick="window.location.href='program.php'"  class="btn btn-secondary">Kembali</button>
-                    </div>
-                        <caption>Data Program</caption>
-                        <thead>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $counter = 1;
-                            while ($row = mysqli_fetch_assoc($selectProgram)) :
-                            ?>
-                                <tr>
-                                    <th >Judul Program</th>
-                                    <td ><?php echo $row['judul']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Deskripsi</th>
-                                    <td><?php echo $row['deskripsi']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Gambar</th>
-                                    <td><?php
-                                        $img = base64_encode($row['img_program']);
-                                        $imgSrc = "data:image/*;base64," . $img;
-                                        ?>
-                                        <img src="<?php echo $imgSrc; ?>" alt="Img Program">
-                                        
-                                        </td>
-                                    </th>
-                                </tr>
+                <div class="table-header">
+                    <div class="table-section">
+                        <table>
+                            <caption>Data Program</caption>
+                            <tbody>
                                 <?php
-                                $counter++;
-                            endwhile;
-                            ?>
-                         
-                        </tbody>
-                    </table>
-                    
-                </div>
+                                while ($row = mysqli_fetch_assoc($selectProgram)) :
+                                ?>
+                                    <tr>
+                                        <th >ID Program</th>
+                                        <td ><?php echo $row['id_program']; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th >Judul Program</th>
+                                        <td ><?php echo $row['judul']; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Deskripsi</th>
+                                        <td><?php echo $row['deskripsi']; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Gambar</th>
+                                        <td><?php
+                                            $img = base64_encode($row['img_program']);
+                                            $imgSrc = "data:image/*;base64," . $img;
+                                            ?>
+                                            <img src="<?php echo $imgSrc; ?>" alt="Img Program">
+                                        </td>
+                                        </th>
+                                    </tr>
+                                    <?php
+                                endwhile;
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+        </div>
     </section>
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
    
     <script type="text/javascript" src="../assets/js/sidebar.js"></script>
-    
-    
-    
-
-    <?php 
-    if($_SESSION['login_success'] == true){
-        ?>
-        <script>
-            var errorMsg = "Login berhasil!";
-            $('.msg').text(errorMsg);
-            $('.alert-success').removeClass("hide");
-            $('.alert-success').addClass("show");
-            $('.alert-success').addClass("showAlert");
-            setTimeout(function(){
-                $('.alert-success').removeClass("show");
-                $('.alert-success').addClass("hide");
-            }, 5000);
-        </script>
-        <?php
-        $_SESSION['login_success'] = false;
-    }
-    ?>
+    <script type="text/javascript" src="../assets/js/modal.js"></script>
 </body>
 </html>

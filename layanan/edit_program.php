@@ -9,25 +9,54 @@ if(!isset($_SESSION['login'])){
 }
 
 $email = $_SESSION['login'];
+$id_user = $_SESSION['id_user'];
 $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
+$rowProfile = mysqli_fetch_assoc($result);
 
-$currentPage = 'layanan';
+$id_program = $_GET['id_program'];
 
 $obj = new Functions();
-$id_program = $_GET['id_program'];
-$selectProgram = $obj->get_data("SELECT * FROM tb_program WHERE id_program = '$id_program'");
-$row = mysqli_fetch_assoc($selectProgram);
+$selectProgram = $obj->get_data("SELECT * FROM tb_program WHERE id_program = $id_program");
+$rowProgram = mysqli_fetch_assoc($selectProgram);
 
-    $judul = '';
-    $deskripsi = '';
-    $image = '';
+if(isset($_POST['simpan'])){
+    $id = $_POST['id'];
+    $judul = $_POST['judul'];
+    $deskripsi = $_POST['deskripsi'];
 
-    if ($row) {
-        $judul = $row['judul'];
-        $deskripsi = $row['deskripsi'];
-        $image = $row['img_program'];
+    if(empty($judul) || empty($deskripsi)){
+        $_SESSION['empty_form'] = true;
+        header("Location: edit_program.php?id_program=$id");
+    } else {
+        if(!empty($_FILES['file']['tmp_name'])){
+            $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+            $file_size = $_FILES['file']['size'];
+            $max_file_size = 64 * 1024;
+            if ($file_size > $max_file_size) {
+                $_SESSION['big_size'] = true;
+                header("Location: edit_program.php?id_program=$id");
+            } else {
+                $updateProgram = $obj->update_data("UPDATE tb_program SET judul='$judul', deskripsi='$deskripsi', img_program='$image', id_user='$id_user' WHERE id_program=$id");
+                if($updateProgram){
+                    $_SESSION['update_success'] = true;
+                    header("Location: program.php");
+                }
+            }
+        } else {
+            $updateProgram = $obj->update_data("UPDATE tb_program SET judul='$judul', deskripsi='$deskripsi', id_user='$id_user' WHERE id_program=$id");
+            if($updateProgram){
+                $_SESSION['update_success'] = true;
+                header("Location: program.php");
+            }
+        }
     }
+
+    exit();
+}
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,10 +73,6 @@ $row = mysqli_fetch_assoc($selectProgram);
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 </head>
 <body>
-    <div class="alert-success hide">
-        <span class="bx bxs-check-circle"></span>
-        <span class="msg"></span>
-    </div>
     <div class="sidebar">
         <div class="logo-details">
             <i><img src="../assets/img/nhcare-logo.png" alt="nhcare-logo"></i>
@@ -55,7 +80,7 @@ $row = mysqli_fetch_assoc($selectProgram);
         </div>
         <ul class="nav-links">
             <li>
-            <div class="icon-link <?php echo ($currentPage == 'dashboard') ? 'active' : ''; ?>">
+            <div class="icon-link">
                     <a href="../dashboard/dashboard.php">
                         <i class='bx bx-grid-alt'></i>
                         <span class="link_name">Dashboard</span>
@@ -96,16 +121,13 @@ $row = mysqli_fetch_assoc($selectProgram);
                         <i class='bx bx-id-card'></i>
                         <span class="link_name">Anak Asuh</span>
                     </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="../anak_asuh/anak_asuh.php">Anak Asuh</a></li>
-                    <li><a href="../anak_asuh/wali.php">Wali</a></li>
-                    <li><a href="../anak_asuh/anak_asuh.php">Anak Asuh</a></li>
                 </ul>
             </li>
             <li>
-            <div class="icon-link <?php echo ($currentPage == 'layanan') ? 'active' : ''; ?>">
+                <div class="icon-link active">
                     <a href="../layanan/acara.php">
                         <i class='bx bx-user-voice'></i>
                         <span class="link_name">Layanan</span>
@@ -121,41 +143,43 @@ $row = mysqli_fetch_assoc($selectProgram);
             </li>
             <li>
                 <div class="icon-link">
-                    <a href="../donasi/pemasukan.php">
-                        <i class='bx bx-money' ></i>
-                        <span class="link_name">Donasi</span>
+                    <a href="../media/video.php">
+                        <i class='bx bx-play'></i>
+                        <span class="link_name">Media</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="../donasi/pemasukan.php">Donasi</a></li>
-                    <li><a href="../donasi/pemasukan.php">Pemasukan</a></li>
-                    <li><a href="../donasi/pengeluaran.php">Pengeluaran</a></li>
+                    <li><a class="link_name" href="../media/video.php">Media</a></li>
+                    <li><a href="../media/video.php">Video</a></li>
+                    <li><a href="../media/website.php">Website</a></li>
                 </ul>
             </li>
             <li>
                 <div class="icon-link">
-                    <a href="../laporan/laporan.php">
-                        <i class='bx bxs-report' ></i>
-                        <span class="link_name">Laporan</span>
+                    <a href="../donasi/pemasukan.php">
+                        <i class='bx bx-money' ></i>
+                        <span class="link_name">Donasi</span>
                     </a>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="../laporan/laporan.php">Laporan</a></li>
+                    <li><a class="link_name" href="../donasi/pemasukan.php">Donasi</a></li>
                 </ul>
             </li>
             <li>
                 <div class="profile-details">
-                    <div class="profile-content">
-                        <img src="../assets/img/user-profile.jpeg" alt="user-profile">
+                    <div class="profile-content" onclick="window.location.href='../profile/profile.php'">
+                        <?php
+                        $img = base64_encode($rowProfile['img_profile']);
+                        $imgSrc = "data:image/*;base64," . $img;
+                        ?>
+                        <img src="<?php echo $imgSrc; ?>" alt="Img Profile">
                     </div>
                     <div class="name-job">
-                        <?php while($row = mysqli_fetch_assoc($result)) : ?>
-                        <div class="profile-name"><?php echo $row["nama"]; ?></div>
-                        <?php endwhile; ?>
+                        <div class="profile-name"><?php echo $rowProfile["nama"]; ?></div>
                         <div class="job">Administrator</div>
                     </div>
-                    <a href="../auth/logout.php"><i class='bx bx-log-out' ></i></a>
+                    <a href="../auth/logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?');"><i class='bx bx-log-out' ></i></a>
                 </div>
             </li>
         </ul>
@@ -167,33 +191,41 @@ $row = mysqli_fetch_assoc($selectProgram);
         </div>
             <div class= "home-body">
                 <div class="card-body">
-                <form action="edit_program.php" method="POST">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="<?php echo $_GET['id_program']; ?>">
                     <div class="mb-3">
-                    <label for="name">Judul Program</label>
-                    <input type="text" id="judul" name="judul" value="<?php echo isset($judul)? $judul : ''; ?>">
+                        <label for="name">Judul Program</label>
+                        <input type="text" id="judul" name="judul" value="<?php echo $rowProgram['judul']; ?>">
+                    </div>
+                        <div class="mb-3">
+                        <label for="deskripsi">Deskripsi</label>
+                        <textarea id="deskripsi" name="deskripsi" rows="5"><?php echo $rowProgram['deskripsi']; ?></textarea>
                     </div>
                     <div class="mb-3">
-                    <label for="deskripsi">Deskripsi</label>
-                    <textarea id="deskripsi" name="deskripsi" rows="2"><?php echo isset($deskripsi)? $deskripsi : ''; ?></textarea>
-                    </div>
-                    <div class="mb-3">
-                    <label for="image">Image</label>
-                        <input type="file" id="img_program" name="img_program" onchange="previewImage(event)">
-                        <!-- <?php if (!empty($image)) : ?>
-                            <img id="imagePreview" src="../layanan/upload_img/<?php echo $image; ?>" style="max-width: 120px; margin-top: 5px; display: block;">
+                        <label for="image">Gambar Program</label>
+                        <?php
+                        $img = base64_encode($rowProgram['img_program']);
+                        $imgSrc = "data:image/*;base64," . $img;
+                        ?>
+                        <input type="file" id="image" name="file" onchange="previewImage(event)">
+                        <?php if (!empty($imgSrc)) : ?>
+                            <img id="imagePreview" src="<?php echo $imgSrc; ?>" style="max-width: 120px; margin-top: 5px; display: block;">
                         <?php else : ?>
                             <p>No image available</p>
-                        <?php endif; ?> -->
-
+                        <?php endif; ?>
                     </div>
                     <div class="btn-container">
-                    <button type="button" onclick="window.location.href='../layanan/program.php'" class="btn btn-secondary">Kembali</button>
-                        <button type="submit" name="simpan" class="btn btn-success">Simpan</button>
+                    <button type="button" onclick="window.location.href='program.php'" class="btn btn-danger">Kembali</button>
+                        <button type="submit" name="simpan" class="btn btn-success">Edit</button>
                     </div>
                     </form>
                 </div>
             </div>
     </section>
+    <div class="alert-danger hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg"></span>
+    </div>
 
     <script type="text/javascript" src="../assets/js/sidebar.js"></script>
     <script>
@@ -216,24 +248,38 @@ $row = mysqli_fetch_assoc($selectProgram);
             }
         }
     </script>
-
     <?php 
-    if($_SESSION['login_success'] == true){
+    if($_SESSION['empty_form'] == true){
         ?>
         <script>
-            var errorMsg = "Login berhasil!";
+            var errorMsg = "Form tidak boleh kosong!";
             $('.msg').text(errorMsg);
-            $('.alert-success').removeClass("hide");
-            $('.alert-success').addClass("show");
-            $('.alert-success').addClass("showAlert");
+            $('.alert-danger').removeClass("hide");
+            $('.alert-danger').addClass("show");
+            $('.alert-danger').addClass("showAlert");
             setTimeout(function(){
-                $('.alert-success').removeClass("show");
-                $('.alert-success').addClass("hide");
+                $('.alert-danger').removeClass("show");
+                $('.alert-danger').addClass("hide");
             }, 5000);
         </script>
         <?php
-        $_SESSION['login_success'] = false;
-    }
+        $_SESSION['empty_form'] = false;
+    } elseif($_SESSION['big_size'] == true){
+        ?>
+        <script>
+            var errorMsg = "Ukuran file terlalu besar!";
+            $('.msg').text(errorMsg);
+            $('.alert-danger').removeClass("hide");
+            $('.alert-danger').addClass("show");
+            $('.alert-danger').addClass("showAlert");
+            setTimeout(function(){
+                $('.alert-danger').removeClass("show");
+                $('.alert-danger').addClass("hide");
+            }, 5000);
+        </script>
+        <?php
+        $_SESSION['big_size'] = false;
+    } 
     ?>
 </body>
 </html>

@@ -14,8 +14,11 @@ if(isset($_SESSION['login'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lupa Password</title>
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/alert.css">
+    <link rel="stylesheet" href="../assets/css/forgot_password.css">
 </head>
 <body>
-    <h1>Lupa password</h1>
+    <div class="bg"></div>
 </body>
 </html>

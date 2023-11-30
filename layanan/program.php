@@ -10,24 +10,20 @@ if(!isset($_SESSION['login'])){
 
 $email = $_SESSION['login'];
 $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
+$rowProfile = mysqli_fetch_assoc($result);
 
 $obj = new Functions();
 $selectProgram = $obj->get_data("SELECT * FROM tb_program");
 
-//untuk hapus data
 if (isset($_POST['hapus'])) {
-    $idToDelete = $_POST['hapus'];
-    $result = $obj->delete_data('tb_program', "id_program = '$idToDelete'");
+    $id_program = $_POST['hapus'];
+    $result = $obj->delete_data("DELETE FROM tb_program WHERE id_program = '$id_program'");
     if ($result) {
         $_SESSION['delete_success'] = true;
-    } else {
-        $_SESSION['delete_success'] = false;
+        header("Location: program.php");
     }
-    header("Location: ../layanan/program.php");
     exit();
 }
-
-
 
 ?>
 
@@ -98,12 +94,9 @@ if (isset($_POST['hapus'])) {
                         <i class='bx bx-id-card'></i>
                         <span class="link_name">Anak Asuh</span>
                     </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="../anak_asuh/anak_asuh.php">Anak Asuh</a></li>
-                    <li><a href="../anak_asuh/wali.php">Wali</a></li>
-                    <li><a href="../anak_asuh/anak_asuh.php">Anak Asuh</a></li>
                 </ul>
             </li>
             <li>
@@ -141,37 +134,25 @@ if (isset($_POST['hapus'])) {
                         <i class='bx bx-money' ></i>
                         <span class="link_name">Donasi</span>
                     </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="../donasi/pemasukan.php">Donasi</a></li>
-                    <li><a href="../donasi/pemasukan.php">Pemasukan</a></li>
-                    <li><a href="../donasi/pengeluaran.php">Pengeluaran</a></li>
-                </ul>
-            </li>
-            <li>
-                <div class="icon-link">
-                    <a href="../laporan/laporan.php">
-                        <i class='bx bxs-report' ></i>
-                        <span class="link_name">Laporan</span>
-                    </a>
-                </div>
-                <ul class="sub-menu">
-                    <li><a class="link_name" href="../laporan/laporan.php">Laporan</a></li>
                 </ul>
             </li>
             <li>
                 <div class="profile-details">
-                    <div class="profile-content">
-                        <img src="../assets/img/user-profile.jpeg" alt="user-profile">
+                    <div class="profile-content" onclick="window.location.href='../profile/profile.php'">
+                        <?php
+                        $img = base64_encode($rowProfile['img_profile']);
+                        $imgSrc = "data:image/*;base64," . $img;
+                        ?>
+                        <img src="<?php echo $imgSrc; ?>" alt="Img Profile">
                     </div>
                     <div class="name-job">
-                        <?php while($row = mysqli_fetch_assoc($result)) : ?>
-                        <div class="profile-name"><?php echo $row["nama"]; ?></div>
-                        <?php endwhile; ?>
+                        <div class="profile-name"><?php echo $rowProfile["nama"]; ?></div>
                         <div class="job">Administrator</div>
                     </div>
-                    <a href="../auth/logout.php"><i class='bx bx-log-out' ></i></a>
+                    <a href="../auth/logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?');"><i class='bx bx-log-out' ></i></a>
                 </div>
             </li>
         </ul>
@@ -203,6 +184,7 @@ if (isset($_POST['hapus'])) {
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>ID Program</th>
                                 <th>Judul Program</th>
                                 <th>Aksi</th>
                             </tr>
@@ -214,13 +196,14 @@ if (isset($_POST['hapus'])) {
                             ?>
                             <tr>
                                 <td><?php echo $no; ?></td>
+                                <td><?php echo $row['id_program']; ?></td>
                                 <td><?php echo $row['judul']; ?></td>
                                 <td>
                                     <form method="POST" action="">
-                                    <button type="button" onclick="window.location.href='detail_program.php?id_program=<?php echo $row['id_program']; ?>'"><i class='bx bxs-show'></i></button>
-                                    <button type="button" onclick="window.location.href='edit_program.php?id_program=<?php echo $row['id_program']; ?>'"><i class='bx bxs-edit'></i></button>
-                                    <button type="submit" name="hapus" value="<?php echo $row['id_program']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus program ini?');"><i class='bx bxs-trash'></i>                                
-                                </form>     
+                                        <button type="button" onclick="window.location.href='detail_program.php?id_program=<?php echo $row['id_program']; ?>'"><i class='bx bxs-show'></i></button>
+                                        <button type="button" onclick="window.location.href='edit_program.php?id_program=<?php echo $row['id_program']; ?>'"><i class='bx bxs-edit'></i></button>
+                                        <button type="submit" name="hapus" value="<?php echo $row['id_program']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus pertanyaan ini?');"><i class='bx bxs-trash'></i>                                
+                                    </form>
                                 </td>
                             </tr>
                             <?php 
@@ -239,33 +222,62 @@ if (isset($_POST['hapus'])) {
             </div>
         </div>
     </section>
+    <div class="alert-success hide">
+        <span class="bx bxs-check-circle"></span>
+        <span class="msg"></span>
+    </div>
+
     <script type="text/javascript" src="../assets/js/sidebar.js"></script>
-
-    <script>
-    //search
-    document.getElementById('search').addEventListener('input', function() {
-        var input, filter, table, tbody, tr, td, i, txtValue;
-        input = document.getElementById("search");
-        filter = input.value.toUpperCase();
-        table = document.querySelector(".table tbody");
-        tr = table.getElementsByTagName("tr");
-
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    });
-
-    </script>
-    
-    
+    <script type="text/javascript" src="../assets/js/table.js"></script>
+    <script type="text/javascript" src="../assets/js/search.js"></script>
+    <?php 
+    if($_SESSION['insert_success'] == true){
+        ?>
+        <script>
+            var errorMsg = "Data berhasil ditambahkan!";
+            $('.msg').text(errorMsg);
+            $('.alert-success').removeClass("hide");
+            $('.alert-success').addClass("show");
+            $('.alert-success').addClass("showAlert");
+            setTimeout(function(){
+                $('.alert-success').removeClass("show");
+                $('.alert-success').addClass("hide");
+            }, 5000);
+        </script>
+        <?php
+        $_SESSION['insert_success'] = false;
+    } elseif($_SESSION['update_success'] == true){
+        ?>
+        <script>
+            var errorMsg = "Data berhasil diedit!";
+            $('.msg').text(errorMsg);
+            $('.alert-success').removeClass("hide");
+            $('.alert-success').addClass("show");
+            $('.alert-success').addClass("showAlert");
+            setTimeout(function(){
+                $('.alert-success').removeClass("show");
+                $('.alert-success').addClass("hide");
+            }, 5000);
+        </script>
+        <?php
+        $_SESSION['update_success'] = false;
+    } elseif($_SESSION['delete_success'] == true){
+        ?>
+        <script>
+            var errorMsg = "Data berhasil dihapus!";
+            $('.msg').text(errorMsg);
+            $('.alert-success').removeClass("hide");
+            $('.alert-success').addClass("show");
+            $('.alert-success').addClass("showAlert");
+            setTimeout(function(){
+                $('.alert-success').removeClass("show");
+                $('.alert-success').addClass("hide");
+            }, 5000);
+        </script>
+        <?php
+        $_SESSION['delete_success'] = false;
+    }
+    ?>
 
 </body>
 </html>

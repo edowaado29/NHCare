@@ -10,9 +10,10 @@ if(!isset($_SESSION['login'])){
 
 $email = $_SESSION['login'];
 $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
+$rowProfile = mysqli_fetch_assoc($result);
 
 $obj = new Functions();
-$selectPemasukan = $obj->get_data("SELECT tb_donasi.nominal AS nominal_donasi, tb_donatur.nama AS nama_donatur FROM tb_donasi JOIN tb_donatur ON tb_donasi.id_donatur = tb_donatur.id_donatur");
+$selectPemasukan = $obj->get_data("SELECT * FROM tb_donasi");
 
 ?>
 
@@ -21,7 +22,7 @@ $selectPemasukan = $obj->get_data("SELECT tb_donasi.nominal AS nominal_donasi, t
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pemasukan</title>
+    <title>Donasi</title>
     <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/alert.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
@@ -83,12 +84,9 @@ $selectPemasukan = $obj->get_data("SELECT tb_donasi.nominal AS nominal_donasi, t
                         <i class='bx bx-id-card'></i>
                         <span class="link_name">Anak Asuh</span>
                     </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="../anak_asuh/anak_asuh.php">Anak Asuh</a></li>
-                    <li><a href="../anak_asuh/wali.php">Wali</a></li>
-                    <li><a href="../anak_asuh/anak_asuh.php">Anak Asuh</a></li>
                 </ul>
             </li>
             <li>
@@ -126,37 +124,25 @@ $selectPemasukan = $obj->get_data("SELECT tb_donasi.nominal AS nominal_donasi, t
                         <i class='bx bx-money' ></i>
                         <span class="link_name">Donasi</span>
                     </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="../donasi/pemasukan.php">Donasi</a></li>
-                    <li><a href="../donasi/pemasukan.php">Pemasukan</a></li>
-                    <li><a href="../donasi/pengeluaran.php">Pengeluaran</a></li>
-                </ul>
-            </li>
-            <li>
-                <div class="icon-link">
-                    <a href="../laporan/laporan.php">
-                        <i class='bx bxs-report' ></i>
-                        <span class="link_name">Laporan</span>
-                    </a>
-                </div>
-                <ul class="sub-menu">
-                    <li><a class="link_name" href="../laporan/laporan.php">Laporan</a></li>
                 </ul>
             </li>
             <li>
                 <div class="profile-details">
-                    <div class="profile-content">
-                        <img src="../assets/img/user-profile.jpeg" alt="user-profile">
+                    <div class="profile-content" onclick="window.location.href='../profile/profile.php'">
+                        <?php
+                        $img = base64_encode($rowProfile['img_profile']);
+                        $imgSrc = "data:image/*;base64," . $img;
+                        ?>
+                        <img src="<?php echo $imgSrc; ?>" alt="Img Profile">
                     </div>
                     <div class="name-job">
-                        <?php while($row = mysqli_fetch_assoc($result)) : ?>
-                        <div class="profile-name"><?php echo $row["nama"]; ?></div>
-                        <?php endwhile; ?>
+                        <div class="profile-name"><?php echo $rowProfile["nama"]; ?></div>
                         <div class="job">Administrator</div>
                     </div>
-                    <a href="../auth/logout.php"><i class='bx bx-log-out' ></i></a>
+                    <a href="../auth/logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?');"><i class='bx bx-log-out' ></i></a>
                 </div>
             </li>
         </ul>
@@ -164,7 +150,7 @@ $selectPemasukan = $obj->get_data("SELECT tb_donasi.nominal AS nominal_donasi, t
     <section class="home-section">
         <div class="home-content">
             <i class='bx bx-menu' ></i>
-            <h3>Pemasukan</h3>
+            <h3>Donasi</h3>
         </div>
         <div class="home-body">
             <div class="table">
@@ -180,7 +166,7 @@ $selectPemasukan = $obj->get_data("SELECT tb_donasi.nominal AS nominal_donasi, t
                     </div>
                     <div>
                         <input type="text" id="search" placeholder="Cari...">
-                        <button class="add-new"><i class='bx bx-plus'></i> Tambah Data</button>
+                        <!-- <button class="add-new"><i class='bx bx-plus'></i> Tambah Data</button> -->
                     </div>
                 </div>
                 <div class="table-section">
@@ -188,7 +174,8 @@ $selectPemasukan = $obj->get_data("SELECT tb_donasi.nominal AS nominal_donasi, t
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nominal Pemasukan</th>
+                                <th>ID Donasi</th>
+                                <th>Nominal Donasi</th>
                                 <th>Nama Donatur</th>
                                 <th>Aksi</th>
                             </tr>
@@ -200,12 +187,11 @@ $selectPemasukan = $obj->get_data("SELECT tb_donasi.nominal AS nominal_donasi, t
                             ?>
                             <tr>
                                 <td><?php echo $no; ?></td>
-                                <td><?php echo $row['nominal_donasi']; ?></td>
+                                <td><?php echo $row['order_id']; ?></td>
+                                <td><?php echo $row['gross_amount']; ?></td>
                                 <td><?php echo $row['nama_donatur']; ?></td>
                                 <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
+                                    <button type="button" onclick="window.location.href='detail_pemasukan.php?transaction_id=<?php echo $row['transaction_id']; ?>'"><i class='bx bx-show' ></i></button>
                                 </td>
                             </tr>
                             <?php 
@@ -227,6 +213,7 @@ $selectPemasukan = $obj->get_data("SELECT tb_donasi.nominal AS nominal_donasi, t
 
     <script type="text/javascript" src="../assets/js/sidebar.js"></script>
     <script type="text/javascript" src="../assets/js/table.js"></script>
+    <script type="text/javascript" src="../assets/js/search.js"></script>
 
 </body>
 </html>

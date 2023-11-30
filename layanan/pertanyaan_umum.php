@@ -10,9 +10,20 @@ if(!isset($_SESSION['login'])){
 
 $email = $_SESSION['login'];
 $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
+$rowProfile = mysqli_fetch_assoc($result);
 
 $obj = new Functions();
 $selectFaq = $obj->get_data("SELECT * FROM tb_faq");
+
+if (isset($_POST['hapus'])) {
+    $id_faq = $_POST['hapus'];
+    $result = $obj->delete_data("DELETE FROM tb_faq WHERE id_faq = '$id_faq'");
+    if ($result) {
+        $_SESSION['delete_success'] = true;
+        header("Location: pertanyaan_umum.php");
+    }
+    exit();
+}
 
 ?>
 
@@ -81,12 +92,9 @@ $selectFaq = $obj->get_data("SELECT * FROM tb_faq");
                         <i class='bx bx-id-card'></i>
                         <span class="link_name">Anak Asuh</span>
                     </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="../anak_asuh/anak_asuh.php">Anak Asuh</a></li>
-                    <li><a href="../anak_asuh/wali.php">Wali</a></li>
-                    <li><a href="../anak_asuh/anak_asuh.php">Anak Asuh</a></li>
                 </ul>
             </li>
             <li>
@@ -124,37 +132,25 @@ $selectFaq = $obj->get_data("SELECT * FROM tb_faq");
                         <i class='bx bx-money' ></i>
                         <span class="link_name">Donasi</span>
                     </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="../donasi/pemasukan.php">Donasi</a></li>
-                    <li><a href="../donasi/pemasukan.php">Pemasukan</a></li>
-                    <li><a href="../donasi/pengeluaran.php">Pengeluaran</a></li>
-                </ul>
-            </li>
-            <li>
-                <div class="icon-link">
-                    <a href="../laporan/laporan.php">
-                        <i class='bx bxs-report' ></i>
-                        <span class="link_name">Laporan</span>
-                    </a>
-                </div>
-                <ul class="sub-menu">
-                    <li><a class="link_name" href="../laporan/laporan.php">Laporan</a></li>
                 </ul>
             </li>
             <li>
                 <div class="profile-details">
-                    <div class="profile-content">
-                        <img src="../assets/img/user-profile.jpeg" alt="user-profile">
+                    <div class="profile-content" onclick="window.location.href='../profile/profile.php'">
+                        <?php
+                        $img = base64_encode($rowProfile['img_profile']);
+                        $imgSrc = "data:image/*;base64," . $img;
+                        ?>
+                        <img src="<?php echo $imgSrc; ?>" alt="Img Profile">
                     </div>
                     <div class="name-job">
-                        <?php while($row = mysqli_fetch_assoc($result)) : ?>
-                        <div class="profile-name"><?php echo $row["nama"]; ?></div>
-                        <?php endwhile; ?>
+                        <div class="profile-name"><?php echo $rowProfile["nama"]; ?></div>
                         <div class="job">Administrator</div>
                     </div>
-                    <a href="../auth/logout.php"><i class='bx bx-log-out' ></i></a>
+                    <a href="../auth/logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?');"><i class='bx bx-log-out' ></i></a>
                 </div>
             </li>
         </ul>
@@ -178,7 +174,7 @@ $selectFaq = $obj->get_data("SELECT * FROM tb_faq");
                     </div>
                     <div>
                         <input type="text" id="search" placeholder="Cari...">
-                        <button class="add-new"><i class='bx bx-plus'></i> Tambah Data</button>
+                        <button type="button" onclick="window.location.href='create_pertanyaan_umum.php'" class="add-new"><i class='bx bx-plus'></i> Tambah Data</button>
                     </div>
                 </div>
                 <div class="table-section">
@@ -186,6 +182,7 @@ $selectFaq = $obj->get_data("SELECT * FROM tb_faq");
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>ID Pertanyaan</th>
                                 <th>Pertanyaan</th>
                                 <th>Aksi</th>
                             </tr>
@@ -197,11 +194,14 @@ $selectFaq = $obj->get_data("SELECT * FROM tb_faq");
                             ?>
                             <tr>
                                 <td><?php echo $no; ?></td>
+                                <td><?php echo $row['id_faq']; ?></td>
                                 <td><?php echo $row['pertanyaan']; ?></td>
                                 <td>
-                                    <button><i class='bx bx-show' ></i></button>
-                                    <button><i class='bx bxs-edit'></i></button>
-                                    <button><i class='bx bxs-trash' ></i></button>
+                                    <form action="" method="POST">
+                                        <button type="button" onclick="window.location.href='detail_pertanyaan_umum.php?id_faq=<?php echo $row['id_faq']; ?>'"><i class='bx bxs-show'></i></button>
+                                        <button type="button" onclick="window.location.href='edit_pertanyaan_umum.php?id_faq=<?php echo $row['id_faq']; ?>'"><i class='bx bxs-edit'></i></button>
+                                        <button type="submit" name="hapus" value="<?php echo $row['id_faq']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus program ini?');"><i class='bx bxs-trash'></i>  
+                                    </form>
                                 </td>
                             </tr>
                             <?php 
@@ -220,9 +220,62 @@ $selectFaq = $obj->get_data("SELECT * FROM tb_faq");
             </div>
         </div>
     </section>
+    <div class="alert-success hide">
+        <span class="bx bxs-check-circle"></span>
+        <span class="msg"></span>
+    </div>
 
     <script type="text/javascript" src="../assets/js/sidebar.js"></script>
     <script type="text/javascript" src="../assets/js/table.js"></script>
+    <script type="text/javascript" src="../assets/js/search.js"></script>
+    <?php 
+    if($_SESSION['insert_success'] == true){
+        ?>
+        <script>
+            var errorMsg = "Data berhasil ditambahkan!";
+            $('.msg').text(errorMsg);
+            $('.alert-success').removeClass("hide");
+            $('.alert-success').addClass("show");
+            $('.alert-success').addClass("showAlert");
+            setTimeout(function(){
+                $('.alert-success').removeClass("show");
+                $('.alert-success').addClass("hide");
+            }, 5000);
+        </script>
+        <?php
+        $_SESSION['insert_success'] = false;
+    } elseif($_SESSION['update_success'] == true){
+        ?>
+        <script>
+            var errorMsg = "Data berhasil diedit!";
+            $('.msg').text(errorMsg);
+            $('.alert-success').removeClass("hide");
+            $('.alert-success').addClass("show");
+            $('.alert-success').addClass("showAlert");
+            setTimeout(function(){
+                $('.alert-success').removeClass("show");
+                $('.alert-success').addClass("hide");
+            }, 5000);
+        </script>
+        <?php
+        $_SESSION['update_success'] = false;
+    } elseif($_SESSION['delete_success'] == true){
+        ?>
+        <script>
+            var errorMsg = "Data berhasil dihapus!";
+            $('.msg').text(errorMsg);
+            $('.alert-success').removeClass("hide");
+            $('.alert-success').addClass("show");
+            $('.alert-success').addClass("showAlert");
+            setTimeout(function(){
+                $('.alert-success').removeClass("show");
+                $('.alert-success').addClass("hide");
+            }, 5000);
+        </script>
+        <?php
+        $_SESSION['delete_success'] = false;
+    }
+    ?>
 
 </body>
 </html>

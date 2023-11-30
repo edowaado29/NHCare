@@ -1,11 +1,3 @@
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
-
 .card-body {
     width: 96%;
     height: 88vh;
@@ -22,7 +14,11 @@ body {
 }
 .card-body input[type="text"],
 .card-body input[type="file"],
+.card-body input[type="datetime-local"],
+.card-body input[type="date"],
+.card-body input[type="password"],
 .card-body button,
+.card-body select,
 .card-body textarea {
     width: 100%;
     padding: 10px;
@@ -37,29 +33,39 @@ body {
 }
 .btn-success {
     margin-top: 10px;
-    background-color: #59A773;
+    background-color: #2ba335;
     color: white;
     cursor: pointer;
     display: inline-block;
 }
 
-.btn-secondary{
+.btn-danger{
     margin-top: 10px;
-    background-color: rgb(224, 224, 224);
-    color:#59A773;
+    background-color: #f80000;
+    color:#fff;
     cursor: pointer;
 }
 
-.card-body button:hover {
-    background-color: #218838;
+.btn-success:hover {
+    background-color: #006b09;
 }
+
+.btn-danger:hover {
+    background-color: #9d0000;
+}
+
 .btn-container {
     display: flex;
     gap: 10px; 
     justify-content: flex-end; 
 }
 
+.flex {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
 
-
-
-
+.flex div {
+    width: 50%;
+}

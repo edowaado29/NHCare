@@ -8,6 +8,8 @@ if(isset($_SESSION['login'])){
     header('Location: ../dashboard/dashboard.php');
 }
 
+$error = 0;
+
 if(isset($_POST['login'])){
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -19,9 +21,17 @@ if(isset($_POST['login'])){
             $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email'");
             if(mysqli_num_rows($result) == 1){
                 $row = mysqli_fetch_assoc($result);
-                if(password_verify($password, $row['password'])){
+                if($password == $row['password']){
                     $_SESSION['login'] = $email;
+                    $_SESSION['id_user'] = $row['id_user'];
                     $_SESSION['login_success'] = true;
+                    $_SESSION['logout_success'] = false;
+                    $_SESSION['insert_success'] = false;
+                    $_SESSION['update_success'] = false;
+                    $_SESSION['delete_success'] = false;
+                    $_SESSION['empty_form'] = false;
+                    $_SESSION['big_size'] = false;
+                    $_SESSION['invalid_email'] = false;
                     header("Location: ../dashboard/dashboard.php");
                 } else {
                     $error = 4;
@@ -74,10 +84,12 @@ if(isset($_POST['login'])){
                     </div>
                     <div class="inputBox">
                         <span>Password</span>
-                        <input type="password" name="password">
+                        <div class="flex" style="display: flex;">
+                            <input type="password" name="password" id="password">
+                            <i class='bx bx-show-alt' style="margin: 10px; font-size: 24px; cursor: pointer;" onclick="togglePassword()"></i>
+                        </div>
                     </div>
                     <div class="remember">
-                        <label><input type="checkbox" name=""> Ingatkan saya</label>
                         <a href="forgot_password.php">Lupa password ?</a>
                     </div>
                     <div class="inputBox">
@@ -88,6 +100,16 @@ if(isset($_POST['login'])){
         </div>
     </section>
 
+    <script>
+        function togglePassword() {
+            var passwordField = document.getElementById("password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+    </script>
     <?php 
     if($_SESSION['logout_success'] == true){
         ?>

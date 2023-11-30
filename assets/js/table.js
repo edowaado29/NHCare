@@ -55,7 +55,6 @@ function pageRunner(page, items, lastPage, active){
             const page_mover = e.target.getAttribute('id');
             if(page_num != null){
                 index = page_num;
-
             }else{
                 if(page_mover === "next"){
                     index++;
@@ -83,7 +82,6 @@ function getpagElement(val){
     let pageli = pageUl.querySelectorAll('.list');
     pageli[0].classList.add("active");
     pageRunner(pagelink, val, lastpage, pageli);
-    
 }
 
 function pageMaker(index, item_per_page, activePage){
@@ -98,16 +96,3 @@ function pageMaker(index, item_per_page, activePage){
     Array.from(activePage).forEach((e)=>{e.classList.remove("active");});
     activePage[index-1].classList.add("active");
 }
-
-// var search = document.getElementById("search");
-// search.onkeyup = e=>{
-//     const text = e.target.value;
-//     for(let i=0; i<tr.length; i++){
-//         const matchText = tr[i].querySelectorAll("td")[2].innerText;
-//         if(matchText.toLowerCase().indexOf(text.toLowerCase()) > -1){
-//             tr[i].style.visibility = "visible";
-//         }else{
-//             tr[i].style.visibility= "collapse";
-//         }
-//     }
-// }

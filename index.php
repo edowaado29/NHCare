@@ -5,6 +5,6 @@
     <title>Document</title>
 </head>
 <body>
-    p
+    landing page
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
 
-$hostname = "localhost";
+$hostname = "nhcare.tifc.myhost.id";
 $username = "tifcmyho_nhcare";
 $password = "@JTIpolije2023";
 $dbname = "tifcmyho_nhcare";

@@ -25,13 +25,6 @@ if(isset($_POST['login'])){
                     $_SESSION['login'] = $email;
                     $_SESSION['id_user'] = $row['id_user'];
                     $_SESSION['login_success'] = true;
-                    $_SESSION['logout_success'] = false;
-                    $_SESSION['insert_success'] = false;
-                    $_SESSION['update_success'] = false;
-                    $_SESSION['delete_success'] = false;
-                    $_SESSION['empty_form'] = false;
-                    $_SESSION['big_size'] = false;
-                    $_SESSION['invalid_email'] = false;
                     header("Location: ../dashboard/dashboard.php");
                 } else {
                     $error = 4;

@@ -183,7 +183,6 @@ if (isset($_POST['hapus'])) {
                                 <th>No</th>
                                 <th>ID Pegawai</th>
                                 <th>Nama Pegawai</th>
-                                <th>Email</th>
                                 <th>Jabatan</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -198,7 +197,6 @@ if (isset($_POST['hapus'])) {
                                 <td><?php echo $no; ?></td>
                                 <td><?php echo $row['id']; ?></td>
                                 <td><?php echo $row['nama_pegawai']; ?></td>
-                                <td><?php echo $row['email_pegawai']; ?></td>
                                 <td><?php echo $row['jabatan_pegawai']; ?></td>
                                 <td><?php echo $row['st']; ?></td>
                                 <td>

@@ -6,52 +6,6 @@ if (function_exists($_GET['function'])) {
     $_GET['function']();
 }
 
-function loginUser()
-{
-    global $koneksi;
-    $email = $_GET['email'];
-    $password = $_GET['password'];
-
-    $query = "SELECT * FROM tb_donatur WHERE email = ? AND password = ?";
-    $stmt = mysqli_prepare($koneksi, $query);
-
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "ss", $email, $password);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_store_result($stmt);
-
-        $result = mysqli_stmt_num_rows($stmt);
-
-        if ($result > 0) {
-            $idDonatur = getDataDonaturByEmail($email, $koneksi);
-            $response = ["status" => "success", "id_donatur" => $idDonatur];
-        } else {
-            $response = ["status" => "failed", "message" => "Email atau password salah"];
-        }
-
-        mysqli_stmt_close($stmt);
-    } else {
-        $response = ["status" => "failed", "message" => "Error in the prepared statement."];
-    }
-
-    header('Content-Type: application/json');
-    echo json_encode($response);
-}
-
-function getDataDonaturByEmail($email, $koneksi)
-{
-    $email = mysqli_real_escape_string($koneksi, $email);
-    $query = "SELECT id_donatur, nama, email, no_hp FROM tb_donatur WHERE email = '$email'";
-    $result = mysqli_query($koneksi, $query);
-
-    if (!$result) {
-        die('Error in query: ' . mysqli_error($koneksi));
-    }
-
-    $row = mysqli_fetch_assoc($result);
-    return $row;
-}
-
 function registerDonatur()
 {
     global $koneksi;
@@ -122,32 +76,6 @@ function insertDonasi()
     echo json_encode($response);
 }
 
-function getAnakAsuhData()
-{
-    global $koneksi;
-
-    $query = "SELECT nama, kelas, nama_sekolah, deskripsi, img_anak FROM tb_anakasuh";
-    $result = mysqli_query($koneksi, $query);
-
-    if ($result) {
-        $data_anakasuh = array();
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            $row['img_anak'] = base64_encode($row['img_anak']);
-            $data_anakasuh[] = $row;
-        }
-
-        $response = ['status' => 1, 'message' => 'Success', 'data' => $data_anakasuh];
-        echo json_encode($response);
-
-        mysqli_free_result($result);
-    } else {
-        echo json_encode(['status' => 0, 'message' => 'Gagal menjalankan query: ' . mysqli_error($koneksi)]);
-    }
-
-    mysqli_close($koneksi);
-}
-
 function getProgramData()
 {
     global $koneksi;
@@ -168,30 +96,6 @@ function getProgramData()
         mysqli_free_result($result);
     } else {
         echo json_encode(['status' => 0, 'message' => 'Gagal menjalankan query: ' . mysqli_error($koneksi)]);
-    }
-
-    mysqli_close($koneksi);
-}
-
-function getAcaraData()
-{
-    global $koneksi;
-
-    $query = "SELECT * FROM tb_acara";
-    $result = mysqli_query($koneksi, $query);
-
-    if ($result) {
-        $data_acara = array();
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            $data_acara[] = $row;
-        }
-
-        echo json_encode($data_acara);
-
-        mysqli_free_result($result);
-    } else {
-        echo "Gagal menjalankan query: " . mysqli_error($koneksi);
     }
 
     mysqli_close($koneksi);
@@ -244,35 +148,6 @@ function getVideoData()
     }
 
     mysqli_close($koneksi);
-}
-
-function getDonasiHistory()
-{
-    global $koneksi;
-
-    if (isset($_GET['id_donatur'])) {
-        $idDonatur = $_GET['id_donatur'];
-        $idDonatur = mysqli_real_escape_string($koneksi, $idDonatur);
-        
-        $query = "SELECT order_id, nama_donatur, keterangan, doa, gross_amount, settlement_time FROM tb_donasi WHERE id_donatur = '$idDonatur'";
-        $result = mysqli_query($koneksi, $query);
-
-        if (!$result) {
-            die('Error in query: ' . mysqli_error($koneksi));
-        }
-
-        $historiDonasi = array();
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            $historiDonasi[] = $row;
-        }
-
-        mysqli_close($koneksi);
-
-        echo json_encode($historiDonasi);
-    } else {
-        echo "Parameter id_donatur tidak valid atau tidak diset.";
-    }
 }
 
 function getTotalDonasi()

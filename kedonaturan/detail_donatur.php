@@ -14,7 +14,7 @@ $rowProfile = mysqli_fetch_assoc($result);
 
 $id_donatur = $_GET['id_donatur'];
 $obj = new Functions();
-$selectDonatur = $obj->get_data("SELECT * FROM tb_donatur WHERE id_donatur = $id_donatur");
+$selectDonatur = $obj->get_data("SELECT * FROM tb_donatur WHERE id_donatur = '$id_donatur'");
 
 ?>
 

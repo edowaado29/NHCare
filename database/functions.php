@@ -1,6 +1,7 @@
 <?php 
 
-$conn = mysqli_connect("nhcare.tifc.myhost.id", "tifcmyho_nhcare", "@JTIpolije2023", "tifcmyho_nhcare");
+// $conn = mysqli_connect("nhcare.tifc.myhost.id", "tifcmyho_nhcare", "@JTIpolije2023", "tifcmyho_nhcare");
+$conn = mysqli_connect("localhost", "root", "", "db_nhcare");
 
 class Functions {
 

@@ -45,7 +45,7 @@ if(isset($_POST['simpan'])){
     $nik_wali = $_POST['nik_wali'];
     $status = $_POST['status'];
 
-    if(empty($nik) || empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($alamat) || empty($ket) || empty($asrama) || empty($akta) || empty($kk) || empty($skko)){
+    if(empty($nik) || empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($alamat) || empty($ket) || empty($asrama)){
         $_SESSION['empty_form'] = true;
     } else {
         if(empty($_FILES['img_akta']['tmp_name']) && empty($_FILES['img_kk']['tmp_name']) && empty($_FILES['img_skko']['tmp_name']) && empty($_FILES['file']['tmp_name'])){
@@ -447,7 +447,6 @@ if(isset($_POST['simpan'])){
                                 <option value="Yatim" <?php echo ($rowAnak['keterangan'] == 'Yatim') ? 'selected' : ''; ?>>Yatim</option>
                                 <option value="Yatim Piatu" <?php echo ($rowAnak['keterangan'] == 'Yatim Piatu') ? 'selected' : ''; ?>>Yatim Piatu</option>
                                 <option value="Piatu" <?php echo ($rowAnak['keterangan'] == 'Piatu') ? 'selected' : ''; ?>>Piatu</option>
-                                <option value="Terlantar" <?php echo ($rowAnak['keterangan'] == 'Terlantar') ? 'selected' : ''; ?>>Terlantar</option>
                                 <option value="Dhuafa" <?php echo ($rowAnak['keterangan'] == 'Dhuafa') ? 'selected' : ''; ?>>Dhuafa</option>
                                 <option value="Lainnya" <?php echo ($rowAnak['keterangan'] == 'Lainnya') ? 'selected' : ''; ?>>Lainnya</option>
                             </select>

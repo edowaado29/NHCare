@@ -44,7 +44,7 @@ if(isset($_POST['simpan'])){
     $nik_wali = $_POST['nik_wali'];
     $status = $_POST['status'];
 
-    if(empty($nik) || empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($alamat) || empty($ket) || empty($asrama) || empty($akta) || empty($kk) || empty($skko) || empty($_FILES['file']['tmp_name']) || empty($_FILES['img_akta']['tmp_name']) || empty($_FILES['img_kk']['tmp_name']) || empty($_FILES['img_skko']['tmp_name'])){
+    if(empty($nik) || empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($alamat) || empty($ket) || empty($asrama) || empty($_FILES['file']['tmp_name']) || empty($_FILES['img_akta']['tmp_name']) || empty($_FILES['img_kk']['tmp_name']) || empty($_FILES['img_skko']['tmp_name'])){
         $_SESSION['empty_form'] = true;
     } else {
         $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
@@ -241,7 +241,6 @@ if(isset($_POST['simpan'])){
                                 <option value="Yatim">Yatim</option>
                                 <option value="Yatim Piatu">Yatim Piatu</option>
                                 <option value="Piatu">Piatu</option>
-                                <option value="Terlantar">Terlantar</option>
                                 <option value="Dhuafa">Dhuafa</option>
                                 <option value="Lainnya">Lainnya</option>
                             </select>

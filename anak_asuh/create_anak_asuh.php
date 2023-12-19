@@ -42,7 +42,7 @@ if(isset($_POST['simpan'])){
     $nik_ibu = $_POST['nik_ibu'];
     $nama_wali = $_POST['nama_wali'];
     $nik_wali = $_POST['nik_wali'];
-    $status = $_POST['status'];
+    $status = 'Aktif';
 
     if(empty($nik) || empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($alamat) || empty($ket) || empty($asrama) || empty($_FILES['file']['tmp_name']) || empty($_FILES['img_akta']['tmp_name']) || empty($_FILES['img_kk']['tmp_name']) || empty($_FILES['img_skko']['tmp_name'])){
         $_SESSION['empty_form'] = true;
@@ -200,12 +200,12 @@ if(isset($_POST['simpan'])){
             </li>
         </ul>
     </div>
-    <section class="home-section" style="height: 320vh">
+    <section class="home-section" style="height: 313vh">
         <div class="home-content">
             <i class='bx bx-menu' ></i>
             <h3>Tambah Anak Asuh</h3>
         </div>
-            <div class= "home-body" style="height: 308vh;">
+            <div class= "home-body" style="height: 300vh;">
                 <div class="card-body">
                     <form action="create_anak_asuh.php" method="POST" enctype="multipart/form-data">
                         <div>
@@ -357,13 +357,6 @@ if(isset($_POST['simpan'])){
                             </div>
                         </div>
                         <div>
-                            <label>Status</label><br>
-                            <input type="radio" id="aktif" name="status" value="Aktif" checked>
-                            <label for="aktif" style="font-weight: 500;">Aktif</label>
-                            <input type="radio" id="tdkaktif" name="status" value="Tidak Aktif" style="margin-left: 15px; margin-top: 10px;">
-                            <label for="tdkaktif" style="font-weight: 500;">Tidak Aktif</label>
-                        </div>
-                        <div style="margin-top: 15px;">
                             <label for="image">Foto Anak Asuh</label>
                             <input type="file" id="image" name="file" onchange="previewImage(event)">
                             <img id="imagePreview">

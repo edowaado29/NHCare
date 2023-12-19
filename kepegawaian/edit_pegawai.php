@@ -36,7 +36,7 @@ if(isset($_POST['simpan'])){
     $tgl_keluar = $_POST['tgl_keluar'];
     $status = $_POST['status'];
 
-    if(empty($nbm) || empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($last_pend) || empty($jabatan) || empty($status_kep) || empty($alamat) || empty($hp) || empty($tgl_masuk) || empty($status)){
+    if(empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($last_pend) || empty($jabatan) || empty($status_kep) || empty($alamat) || empty($hp) || empty($tgl_masuk) || empty($status)){
         $_SESSION['empty_form'] = true;
     } else {
         if(filter_var($email, FILTER_VALIDATE_EMAIL)){

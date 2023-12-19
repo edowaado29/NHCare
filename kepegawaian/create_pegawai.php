@@ -32,10 +32,9 @@ if(isset($_POST['simpan'])){
     $hp = $_POST['hp'];
     $email = $_POST['email'];
     $tgl_masuk = $_POST['tgl_masuk'];
-    $tgl_keluar = $_POST['tgl_keluar'];
-    $status = $_POST['status'];
+    $status = "Aktif";
 
-    if(empty($nbm) || empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($last_pend) || empty($jabatan) || empty($status_kep) || empty($alamat) || empty($hp) || empty($tgl_masuk) || empty($status) || empty($_FILES['file']['tmp_name']) || empty($_FILES['img_kk']['tmp_name']) || empty($_FILES['img_ktp']['tmp_name'])){
+    if(empty($name) || empty($jenis_kelamin) || empty($tpt_lahir) || empty($tgl_lahir) || empty($last_pend) || empty($jabatan) || empty($status_kep) || empty($alamat) || empty($hp) || empty($tgl_masuk) || empty($_FILES['file']['tmp_name']) || empty($_FILES['img_kk']['tmp_name']) || empty($_FILES['img_ktp']['tmp_name'])){
         $_SESSION['empty_form'] = true;
         header("Location: create_pegawai.php");
     } else {
@@ -52,7 +51,7 @@ if(isset($_POST['simpan'])){
                 $_SESSION['big_size'] = true;
                 header("Location: create_pegawai.php");
             } else {
-                $insertPegawai = $obj->insert_data("INSERT INTO tb_pegawai (id_pegawai, nbm, nama, jenis_kelamin, tempat_lahir, tanggal_lahir, pendidikan_terakhir, status_kepegawaian, alamat, no_hp, email, tanggal_masuk, tanggal_keluar, img_kk, img_ktp, status, img_pegawai, id_jabatan) VALUES ('$idset', '$nbm', '$name', '$jenis_kelamin', '$tpt_lahir', '$tgl_lahir', '$last_pend', '$status_kep', '$alamat', '$hp', '$email', '$tgl_masuk', '$tgl_keluar', '$img_kk', '$img_ktp', '$status', '$image', '$jabatan')");
+                $insertPegawai = $obj->insert_data("INSERT INTO tb_pegawai (id_pegawai, nbm, nama, jenis_kelamin, tempat_lahir, tanggal_lahir, pendidikan_terakhir, status_kepegawaian, alamat, no_hp, email, tanggal_masuk, img_kk, img_ktp, status, img_pegawai, id_jabatan) VALUES ('$idset', '$nbm', '$name', '$jenis_kelamin', '$tpt_lahir', '$tgl_lahir', '$last_pend', '$status_kep', '$alamat', '$hp', '$email', '$tgl_masuk', '$img_kk', '$img_ktp', '$status', '$image', '$jabatan')");
                 if($insertPegawai){
                     $_SESSION['insert_success'] = true;
                     header("Location: pegawai.php");
@@ -196,12 +195,12 @@ if(isset($_POST['simpan'])){
             </li>
         </ul>
     </div>
-    <section class="home-section" style="height: 248vh">
+    <section class="home-section" style="height: 230vh">
         <div class="home-content">
             <i class='bx bx-menu' ></i>
             <h3>Tambah Pegawai</h3>
         </div>
-            <div class= "home-body" style="height: 236vh;">
+            <div class= "home-body" style="height: 215vh;">
                 <div class="card-body">
                     <form action="create_pegawai.php" method="POST" enctype="multipart/form-data">
                         <div>
@@ -273,10 +272,6 @@ if(isset($_POST['simpan'])){
                             <label for="tgl_masuk">Tanggal Masuk</label>
                             <input type="date" id="tgl_masuk" name="tgl_masuk">
                         </div>
-                        <div>
-                            <label for="tgl_keluar">Tanggal Keluar (Kosongi jika masih aktif)</label>
-                            <input type="date" id="tgl_keluar" name="tgl_keluar">
-                        </div>
                         <div class="flex">
                             <div>
                                 <label for="img_kk">Foto Kartu Keluarga</label>
@@ -288,13 +283,6 @@ if(isset($_POST['simpan'])){
                             </div>
                         </div>
                         <div>
-                            <label>Status</label><br>
-                            <input type="radio" id="aktif" name="status" value="Aktif" checked>
-                            <label for="aktif" style="font-weight: 500;">Aktif</label>
-                            <input type="radio" id="tdkaktif" name="status" value="Tidak Aktif" style="margin-left: 15px; margin-top: 10px;">
-                            <label for="tdkaktif" style="font-weight: 500;">Tidak Aktif</label>
-                        </div>
-                        <div style="margin-top: 15px;">
                             <label for="image">Foto Pegawai</label>
                             <input type="file" id="image" name="file" onchange="previewImage(event)">
                             <img id="imagePreview">

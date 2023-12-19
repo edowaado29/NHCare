@@ -18,15 +18,15 @@ $obj = new Functions();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Konfirmasi OTP</title>
-    <link rel="stylesheet" href="../assets/css/reset.css">
-    <link rel="stylesheet" href="../assets/css/alert.css">
-    <link rel="stylesheet" href="../assets/css/forgot_password.css">
+    <link rel="stylesheet" href="../asset/css/reset.css">
+    <link rel="stylesheet" href="../asset/css/alert.css">
+    <link rel="stylesheet" href="../asset/css/forgot_password.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
-    <link rel="icon" type="image/png" href="../assets/img/nhcare-logo-color.png">
+    <link rel="icon" type="image/png" href="../asset/img/nhcare-logo-color.png">
 </head>
 <body>
     <div class="bg">
@@ -58,7 +58,7 @@ $obj = new Functions();
     <script>
         feather.replace();
     </script>
-    <script type="text/javascript" src="../assets/js/forgot_password.js"></script>
+    <script type="text/javascript" src="../asset/js/forgot_password.js"></script>
     <?php 
     if($_SESSION['success'] == true){
         ?>

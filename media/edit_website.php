@@ -62,19 +62,19 @@ if(isset($_POST['simpan'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Website</title>
-    <link rel="stylesheet" href="../assets/css/reset.css">
-    <link rel="stylesheet" href="../assets/css/alert.css">
-    <link rel="stylesheet" href="../assets/css/sidebar.css">
-    <link rel="stylesheet" href="../assets/css/layout_button.css">
+    <link rel="stylesheet" href="../asset/css/reset.css">
+    <link rel="stylesheet" href="../asset/css/alert.css">
+    <link rel="stylesheet" href="../asset/css/sidebar.css">
+    <link rel="stylesheet" href="../asset/css/layout_button.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <link rel="icon" type="image/png" href="../assets/img/nhcare-logo-color.png">
+    <link rel="icon" type="image/png" href="../asset/img/nhcare-logo-color.png">
 </head>
 <body>
     <div class="sidebar">
         <div class="logo-details">
-            <i><img src="../assets/img/nhcare-logo.png" alt="nhcare-logo"></i>
+            <i><img src="../asset/img/nhcare-logo.png" alt="nhcare-logo"></i>
             <span class="logo_name">NHCare</span>
         </div>
         <ul class="nav-links">
@@ -226,7 +226,7 @@ if(isset($_POST['simpan'])){
         <span class="msg"></span>
     </div>
 
-    <script type="text/javascript" src="../assets/js/sidebar.js"></script>
+    <script type="text/javascript" src="../asset/js/sidebar.js"></script>
     <script>
         function previewImage(event) {
             const reader = new FileReader();

@@ -24,19 +24,19 @@ $selectDonatur = $obj->get_data("SELECT * FROM tb_donatur WHERE id_donatur = '$i
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Program</title>
-    <link rel="stylesheet" href="../assets/css/reset.css">
-    <link rel="stylesheet" href="../assets/css/alert.css">
-    <link rel="stylesheet" href="../assets/css/sidebar.css">
-    <link rel="stylesheet" href="../assets/css/detail.css">
+    <link rel="stylesheet" href="../asset/css/reset.css">
+    <link rel="stylesheet" href="../asset/css/alert.css">
+    <link rel="stylesheet" href="../asset/css/sidebar.css">
+    <link rel="stylesheet" href="../asset/css/detail.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/a50eac9860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <link rel="icon" type="image/png" href="../assets/img/nhcare-logo-color.png">
+    <link rel="icon" type="image/png" href="../asset/img/nhcare-logo-color.png">
 </head>
 <body>
 <div class="sidebar">
         <div class="logo-details">
-            <i><img src="../assets/img/nhcare-logo.png" alt="nhcare-logo"></i>
+            <i><img src="../asset/img/nhcare-logo.png" alt="nhcare-logo"></i>
             <span class="logo_name">NHCare</span>
         </div>
         <ul class="nav-links">
@@ -216,7 +216,7 @@ $selectDonatur = $obj->get_data("SELECT * FROM tb_donatur WHERE id_donatur = '$i
         <img class="modal-content" id="modalImg">
     </div>
    
-    <script type="text/javascript" src="../assets/js/sidebar.js"></script>
-    <script type="text/javascript" src="../assets/js/modal.js"></script>
+    <script type="text/javascript" src="../asset/js/sidebar.js"></script>
+    <script type="text/javascript" src="../asset/js/modal.js"></script>
 </body>
 </html>

@@ -38,7 +38,7 @@ function getDataDonaturByEmail($email) {
 
     // Query untuk mendapatkan ID donatur berdasarkan email
     $email = mysqli_real_escape_string($koneksi, $email);
-    $query = "SELECT id_donatur, nama, email, no_hp FROM tb_donatur WHERE email = '$email'";
+    $query = "SELECT * FROM tb_donatur WHERE email = '$email'";
     $result = mysqli_query($koneksi, $query);
 
     if (!$result) {
